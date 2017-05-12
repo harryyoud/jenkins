@@ -1,8 +1,8 @@
 # device buildtype repopick-numbers repopick-topics
-angler userdebug
-d2att userdebug 
-falcon userdebug 
-flounder userdebug 
-flounder_lte userdebug 
-grouper userdebug 
-tilapia userdebug 
+angler userdebug 172537
+d2att userdebug
+falcon userdebug
+flounder userdebug
+flounder_lte userdebug
+grouper userdebug
+tilapia userdebug
