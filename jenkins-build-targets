@@ -1,4 +1,5 @@
-angler userdebug 172020 stache
+# device buildtype repopick-numbers repopick-topics
+angler userdebug 172020,172018 stache,nuke_gello
 d2att userdebug
 falcon userdebug
 flounder userdebug
