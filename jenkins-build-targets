@@ -1,5 +1,5 @@
 # device buildtype repopick-numbers repopick-topics
-angler userdebug 172537,172636 pixelify
+angler userdebug 172537 pixelify
 d2att userdebug 171142,169431,164202,157956,172006
 falcon userdebug
 flounder userdebug
