@@ -7,7 +7,6 @@ timestamps {
     } else {
         currentBuild.displayName = DEVICE + '-' + calcDate() + '-' + BUILD_TYPE + '-priv'
     }
-    return 1
     if(BOOT_IMG_ONLY == 'true') {
         OTA = false
     }
