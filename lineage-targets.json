@@ -1,0 +1,35 @@
+[
+	{
+			"device": "angler",
+			"build_type": "user",
+			"with_gapps": "true",
+			"repopick_nums": "172537,175678",
+			"repopick_tops": "pixelify,angler_core_ctl"
+	},
+	{
+			"device": "d2att",
+			"build_type": "userdebug",
+			"with_su": "true",
+			"repopick_nums": "171142,169431,164202,157956,172006"
+	},
+	{
+			"device": "falcon",
+			"build_type": "userdebug"
+	},
+	{
+			"device": "flounder",
+			"build_type": "userdebug"
+	},
+	{
+			"device": "flounder_lte",
+			"build_type": "userdebug"
+	},
+	{
+			"device": "grouper",
+			"build_type": "userdebug"
+	},
+	{
+			"device": "tilapia",
+			"build_type": "userdebug"
+	}
+]
