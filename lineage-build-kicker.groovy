@@ -1,4 +1,4 @@
-String getDevices() { ['curl', '-s', 'https://raw.githubusercontent.com/harryyoud/lineage_build/master/lineage-targets'].execute().text }
+String getDevices() { ['curl', '-s', 'https://raw.githubusercontent.com/harryyoud/jenkins/master/lineage-targets'].execute().text }
 node("master"){
 	def json = jsonParse(getDevices())
 	json.each {
