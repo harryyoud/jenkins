@@ -1,6 +1,6 @@
 node("master"){
     stage('Clone'){
-        withCredentials([string(credentialsId: 'github_token', variable: 'GH_API_KEY')]) {
+        withCredentials([string(credentialsId: '6011576d-29fd-4457-9b00-5c4b153822ef', variable: 'GH_API_KEY')]) {
             sh '''#!/bin/bash +x
                 set -e
                 rm -rf lineageos_updater
