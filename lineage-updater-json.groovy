@@ -1,18 +1,16 @@
 node("master"){
     stage('Clone'){
-        environment { 
-                GH_API_KEY = credentials('github_token') 
-        }
-        sh '''#!/bin/bash +x
-            set -e
-            rm -rf lineageos_updater
-            rm -rf scripts
-            git clone git@github.com:LineageOS/lineageos_updater
-            git clone git@github.com:lineageos/scripts
-            echo "$GH_API_KEY" 
-            #> scripts/device-deps-regenerator/token
-            scp -p -P 29418 harryyoud@review.lineageos.org:hooks/commit-msg lineageos_updater/.git/hooks/
-        '''
+        withCredentials([string(credentialsId: 'github_token', variable: 'GH_API_KEY')]) {
+            sh '''#!/bin/bash +x
+                set -e
+                rm -rf lineageos_updater
+                rm -rf scripts
+                git clone git@github.com:LineageOS/lineageos_updater
+                git clone git@github.com:lineageos/scripts
+                echo "$GH_API_KEY" 
+                #> scripts/device-deps-regenerator/token
+                scp -p -P 29418 harryyoud@review.lineageos.org:hooks/commit-msg lineageos_updater/.git/hooks/
+            '''
     }
     stage('Generate json'){
         sh '''#!/bin/bash +x
