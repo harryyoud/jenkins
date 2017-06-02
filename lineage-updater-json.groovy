@@ -11,6 +11,7 @@ node("master"){
                 #> scripts/device-deps-regenerator/token
                 scp -p -P 29418 harryyoud@review.lineageos.org:hooks/commit-msg lineageos_updater/.git/hooks/
             '''
+        }
     }
     stage('Generate json'){
         sh '''#!/bin/bash +x
