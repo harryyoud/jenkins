@@ -6,7 +6,7 @@ node("master"){
             rm -rf scripts
             git clone git@github.com:LineageOS/lineageos_updater
             git clone git@github.com:lineageos/scripts
-            echo "$GH_API_TOKEN" 
+            echo "$github_token" 
             #> scripts/device-deps-regenerator/token
             scp -p -P 29418 harryyoud@review.lineageos.org:hooks/commit-msg lineageos_updater/.git/hooks/
         '''
