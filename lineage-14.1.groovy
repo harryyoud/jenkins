@@ -124,15 +124,16 @@ timestamps {
         '''
     }
     stage('Add to updater'){
-        sh '''#!/bin/bash
-            set +x
-            cd /mnt/Android/lineage/14.1/out/target/product/$DEVICE
-            if [ $OTA = 'true' ]; then
-                newname=$(find -name 'lineage-14.1-*.zip' -printf '%f\\n')
-                md5sum=$(cat lineage-14.1-*.zip.md5sum)
-                curl -H "Apikey: $UPDATER_API_KEY" -H "Content-Type: application/json" -X POST -d '{ "device": "'"$DEVICE"'", "filename": "'"$newname"'", "md5sum": "'"${md5sum:0:32}"'", "romtype": "unofficial", "url": "'"http://builder.harryyoud.co.uk/lineage/$newname"'", "version": "'"14.1"'" }' "https://lineage.harryyoud.co.uk/api/v1/add_build"
-            fi
-        '''
+        withCredentials([string(credentialsId: '3ad6afb4-1f2a-45e9-94c7-b2b511f81d50', variable: 'UPDATER_API_KEY')]) {
+            sh '''#!/bin/bash
+                set +x
+                cd /mnt/Android/lineage/14.1/out/target/product/$DEVICE
+                if [ $OTA = 'true' ]; then
+                    newname=$(find -name 'lineage-14.1-*.zip' -printf '%f\\n')
+                    md5sum=$(cat lineage-14.1-*.zip.md5sum)
+                    curl -H "Apikey: $UPDATER_API_KEY" -H "Content-Type: application/json" -X POST -d '{ "device": "'"$DEVICE"'", "filename": "'"$newname"'", "md5sum": "'"${md5sum:0:32}"'", "romtype": "unofficial", "url": "'"http://builder.harryyoud.co.uk/lineage/$newname"'", "version": "'"14.1"'" }' "https://lineage.harryyoud.co.uk/api/v1/add_build"
+                fi
+            '''
     }
 }
 }
