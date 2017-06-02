@@ -32,7 +32,11 @@ timestamps {
         sh '''#!/bin/bash
             set +x
             cd /mnt/Android/lineage/14.1
-            repo sync -c -j64 --force-sync
+            repo forall -c "git reset --hard"
+            repo forall -c "git clean -f -d"
+            repo sync -d -c -j64 --force-sync
+            repo forall -c "git reset --hard"
+            repo forall -c "git clean -f -d"
             . build/envsetup.sh
             breakfast $DEVICE
         '''
