@@ -4,6 +4,7 @@ String getDevices() { ['curl', '-s', 'https://raw.githubusercontent.com/harryyou
 def jsonParse(def json) { new groovy.json.JsonSlurperClassic().parseText(json) }
 
 node("master"){
+	build job: 'lineage-mirror-sync', propogate: true, wait: true
 	def json = jsonParse(getDevices())
 	for(int i = 0; i < json.size(); i++) {
 		echo "Building ${json[i].device}"
