@@ -15,14 +15,14 @@ timestamps {
             if [ $CRON_RUN = 'true' ]; then
                 echo "Automatic run, so mirror sync has already been done"
             else
-                cd /mnt/Media/Lineage
+                cd $MIRROR_TREE
                 repo sync -j32
             fi
         '''
     }
     stage('Input manifest'){
         sh '''#!/bin/bash +x
-            cd /mnt/Android/lineage/14.1
+            cd $BUILD_TREE
             rm -rf .repo/local_manifests
             mkdir .repo/local_manifests
             curl --silent "https://raw.githubusercontent.com/harryyoud/jenkins/master/manifest.xml" > .repo/local_manifests/roomservice.xml
@@ -31,7 +31,7 @@ timestamps {
     stage('Sync'){
         sh '''#!/bin/bash
             set +x
-            cd /mnt/Android/lineage/14.1
+            cd $BUILD_TREE
             repo forall -c "git reset --hard"
             repo forall -c "git clean -f -d"
             repo sync -d -c -j64 --force-sync
@@ -44,7 +44,7 @@ timestamps {
     stage('Output manifest'){
         sh '''#!/bin/bash
             set +x
-            cd /mnt/Android/lineage/14.1
+            cd $BUILD_TREE
             rm -r manifests
             mkdir -p manifests
             repo manifest -r -o manifests/$DEVICE-$(date +%Y%m%d)-manifest.xml
@@ -52,7 +52,7 @@ timestamps {
     }
     stage('Repopicks'){
         sh '''#!/bin/bash
-            cd /mnt/Android/lineage/14.1
+            cd $BUILD_TREE
             . build/envsetup.sh
             if ! [ -z $REPOPICK_NUMBERS ]; then
                 for rpnum in ${REPOPICK_NUMBERS//,/ }; do
@@ -73,7 +73,7 @@ timestamps {
     stage('Clean'){
         sh '''#!/bin/bash
             set +x
-            cd /mnt/Android/lineage/14.1
+            cd $BUILD_TREE
             make clean
         '''
     }
@@ -81,11 +81,10 @@ timestamps {
         sh '''#!/bin/bash
             set +x
             set -e
-            cd /mnt/Android/lineage/14.1
+            cd $BUILD_TREE
             . build/envsetup.sh
             export USE_CCACHE=1
             export CCACHE_COMPRESS=1
-            export CCACHE_DIR=/mnt/Android/ccache
             lunch lineage_$DEVICE-$BUILD_TYPE
             ./prebuilts/sdk/tools/jack-admin list-server && ./prebuilts/sdk/tools/jack-admin kill-server
             export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx6g"
@@ -103,13 +102,13 @@ timestamps {
             set +x
             set -e
             if ! [[ $OTA = 'true' || $BOOT_IMG_ONLY = 'true' ]]; then
-                cp /mnt/Android/lineage/14.1/out/target/product/$DEVICE/lineage-14.1-* .
+                cp $BUILD_TREE/out/target/product/$DEVICE/lineage-14.1-* .
             fi
             if [ $BOOT_IMG_ONLY = 'true' ]; then
-                cp /mnt/Android/lineage/14.1/out/target/product/$DEVICE/boot.img .
+                cp $BUILD_TREE/out/target/product/$DEVICE/boot.img .
             fi
-            cp /mnt/Android/lineage/14.1/manifests/$DEVICE-$(date +%Y%m%d)-manifest.xml .
-            cp /mnt/Android/lineage/14.1/out/target/product/$DEVICE/installed-files.txt .
+            cp $BUILD_TREE/manifests/$DEVICE-$(date +%Y%m%d)-manifest.xml .
+            cp $BUILD_TREE/out/target/product/$DEVICE/installed-files.txt .
         '''
         archiveArtifacts artifacts: '*'
         sh '''#!/bin/bash
@@ -121,7 +120,7 @@ timestamps {
         sh '''#!/bin/bash
             set +x
             if [ $OTA = 'true' ]; then
-                scp /mnt/Android/lineage/14.1/out/target/product/$DEVICE/lineage-14.1-* root@builder.harryyoud.co.uk:/srv/www/builder.harryyoud.co.uk/lineage/
+                scp $BUILD_TREE/out/target/product/$DEVICE/lineage-14.1-* root@builder.harryyoud.co.uk:/srv/www/builder.harryyoud.co.uk/lineage/
             else
                 echo "Skipping as this is not a production build. Artifacts will be available in Jenkins"
             fi
@@ -131,7 +130,7 @@ timestamps {
         withCredentials([string(credentialsId: '3ad6afb4-1f2a-45e9-94c7-b2b511f81d50', variable: 'UPDATER_API_KEY')]) {
             sh '''#!/bin/bash
                 set +x
-                cd /mnt/Android/lineage/14.1/out/target/product/$DEVICE
+                cd $BUILD_TREE/out/target/product/$DEVICE
                 if [ $OTA = 'true' ]; then
                     newname=$(find -name 'lineage-14.1-*.zip' -printf '%f\\n')
                     md5sum=$(cat lineage-14.1-*.zip.md5sum)

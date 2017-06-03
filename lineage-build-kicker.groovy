@@ -9,6 +9,9 @@ node("master"){
 	for(int i = 0; i < json.size(); i++) {
 		echo "Kicking off a build for ${json[i].device}"
 		build job: 'lineage-14.1', parameters: [
+			string(name: 'CCACHE_DIR', value: '/mnt/Android/ccache'),
+			string(name: 'MIRROR_TREE', value: '/mnt/Media/Lineage'),
+			string(name: 'BUILD_TREE', value: '/mnt/Android/lineage/14.1'),
 			string(name: 'DEVICE', value: (json[i].device == null) ? "HELP-omgwtfbbq" : json[i].device),
 			string(name: 'BUILD_TYPE', value: (json[i].build_type == null) ? "userdebug" : json[i].build_type),
 			string(name: 'OTA', value: 'true'),
