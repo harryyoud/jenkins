@@ -38,7 +38,7 @@ timestamps {
             cd '''+BUILD_TREE+'''
             repo forall -c "git reset --hard"
             repo forall -c "git clean -f -d"
-            repo sync -d -c -j64 --force-sync
+            repo sync -d -c -j128 --force-sync
             repo forall -c "git reset --hard"
             repo forall -c "git clean -f -d"
             . build/envsetup.sh
