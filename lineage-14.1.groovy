@@ -111,9 +111,10 @@ timestamps {
             fi
             if [ $BOOT_IMG_ONLY = 'true' ]; then
                 cp '''+BUILD_TREE+'''/out/target/product/$DEVICE/boot.img .
+            else
+                cp '''+BUILD_TREE+'''/out/target/product/$DEVICE/installed-files.txt .
             fi
             cp '''+BUILD_TREE+'''/manifests/$DEVICE-$(date +%Y%m%d)-manifest.xml .
-            cp '''+BUILD_TREE+'''/out/target/product/$DEVICE/installed-files.txt .
         '''
         archiveArtifacts artifacts: '*'
         sh '''#!/bin/bash
