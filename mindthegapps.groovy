@@ -18,10 +18,10 @@ node("master"){
         def arch = data[0]
         stage("Build gapps for $arch") {
             echo "Building mindthegapps-${arch}"
-            sh '''
+            sh """
                 set +x
                 make gapps_$arch
-            '''
+            """
         }
     }
     stage('Upload artifacts') {
