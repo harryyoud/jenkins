@@ -28,7 +28,7 @@ node("master"){
     sh '''
         set +x
         find out/ -type f -name MindTheGapps*.zip -exec /var/lib/jenkins/afh/afh-ftp.py 178688 {} \\;
-       '''}
-    
+       '''
+
     }
 }
