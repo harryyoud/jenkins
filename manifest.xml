@@ -21,7 +21,7 @@
   <project name="LineageOS/android_external_busybox" path="external/busybox" />
   <project name="omnirom/android_bootable_recovery" path="bootable/recovery-twrp" revision="android-7.1" />
   <!-- Bundle Gapps -->
-  <project name="MindTheGapps/vendor_gapps" path="vendor/gapps" revision="master" />
+  <project name="harryyoud/vendor_gapps" path="vendor/gapps" revision="nexus" />
   <!-- OMS (currently disabled) -->
   <!--<project name="substratum/interfacer" path="packages/apps/ThemeInterfacer" remote="github" revision="n-rootless" />-->
 </manifest>
