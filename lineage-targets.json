@@ -2,9 +2,10 @@
 	{
 			"device": "angler",
 			"build_type": "user",
-			"with_gapps": "true",
 			"repopick_nums": "172537,175678",
-			"repopick_tops": "pixelify,angler_core_ctl"
+			"repopick_tops": "pixelify,angler_core_ctl",
+			"with_gapps": "true",
+			"with_dexpreopt": true
 	},
 	{
 			"device": "d2att",
