@@ -3,13 +3,19 @@ String calcDate() { ['date', '+%Y%m%d'].execute().text.trim()}
 def MIRROR_TREE = "/mnt/Media/Lineage"
 def BUILD_TREE  = "/mnt/Android/lineage/14.1"
 def CCACHE_DIR  = "/mnt/Android/ccache"
+def CERTS_DIR   = "/mnt/Android/.android-certs"
+
+def basejobname = DEVICE + '-' + calcDate() + '-' + BUILD_TYPE
 
 node("the-revenge"){
 timestamps {
-    if (OTA == 'true') {
-        currentBuild.displayName = DEVICE + '-' + calcDate() + '-' + BUILD_TYPE
+    if(SIGNED == 'true') {
+        basejobname = basejobname + '-signed'
+    }
+    if(OTA == 'true') {
+        currentBuild.displayName = basejobname
     } else {
-        currentBuild.displayName = DEVICE + '-' + calcDate() + '-' + BUILD_TYPE + '-priv'
+        currentBuild.displayName = basejobname + '-priv'
     }
     if(BOOT_IMG_ONLY == 'true') {
         OTA = false
@@ -97,10 +103,31 @@ timestamps {
             if [ $BOOT_IMG_ONLY = 'true' ]; then
                 mka bootimage
             else
-                mka bacon
+                if [ $SIGNED == true ]; then
+                    mka target-files-package dist
+                else
+                    mka bacon
+                fi
             fi
             ./prebuilts/sdk/tools/jack-admin list-server && ./prebuilts/sdk/tools/jack-admin kill-server
         '''
+    }
+    if(SIGNED == 'true'){
+        stage('Sign build'){
+            sh'''#!/bin/bash
+                set +x
+                set -e
+                cd '''+BUILD_TREE+'''
+                mkdir -p out/target/product/$DEVICE
+                ./build/tools/releasetools/sign_target_files_apks -o -d '''+CERTS_DIR+''' \
+                    out/dist/*-target_files-*.zip \
+                    out/target/product/$DEVICE/jenkins-signed-target_files.zip
+                ./build/tools/releasetools/ota_from_target_files -k ~/.android-certs/releasekey \
+                    --block --backup=true \
+                    out/target/product/$DEVICE/jenkins-signed-target_files.zip \
+                    out/target/product/$DEVICE/lineage-14.1-$(date +%Y%m%d)-UNOFFICIAL-$DEVICE-signed.zip
+            '''
+        }
     }
     stage('Upload to Jenkins'){
         sh '''#!/bin/bash

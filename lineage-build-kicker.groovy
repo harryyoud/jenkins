@@ -22,6 +22,7 @@ node("master"){
 			string(name: 'WITH_GAPPS', value: (json[i].with_gapps == null) ? "false" : json[i].with_gapps),
 			string(name: 'WITH_DEXPREOPT', value: (json[i].with_dexpreopt == null) ? "false" : json[i].with_dexpreopt),
 			string(name: 'OTA', value: (json[i].ota == null) ? "true" : json[i].ota),
+			string(name: 'SIGNED', value: (json[i].signed == null) ? "false" : json[i].signed),
 			string(name: 'CRON_RUN', value: 'true')
 		], propagate: false, wait: false
 		sleep 2
