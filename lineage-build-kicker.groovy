@@ -7,6 +7,11 @@ node("master"){
 	build job: 'lineage-mirror-sync', propogate: true, wait: true
 	def json = jsonParse(getDevices())
 	for(int i = 0; i < json.size(); i++) {
+		if(device) {
+			if(device != json[i].device) {
+				continue
+			}
+		}
 		echo "Kicking off a build for ${json[i].device}"
 		build job: 'lineage-14.1', parameters: [
 			string(name: 'DEVICE', value: (json[i].device == null) ? "HELP-omgwtfbbq" : json[i].device),
