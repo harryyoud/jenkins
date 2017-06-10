@@ -103,11 +103,7 @@ timestamps {
             if [ $BOOT_IMG_ONLY = 'true' ]; then
                 mka bootimage
             else
-                if [ $SIGNED == true ]; then
-                    mka target-files-package dist
-                else
-                    mka bacon
-                fi
+                mka bacon
             fi
             ./prebuilts/sdk/tools/jack-admin list-server && ./prebuilts/sdk/tools/jack-admin kill-server
         '''
@@ -118,9 +114,9 @@ timestamps {
                 set +x
                 set -e
                 cd '''+BUILD_TREE+'''
-                mkdir -p out/target/product/$DEVICE
+                rm -f out/target/product/$DEVICE/lineage-14.1-*.zip
                 ./build/tools/releasetools/sign_target_files_apks -o -d '''+CERTS_DIR+''' \
-                    out/dist/*-target_files-*.zip \
+                    out/target/product/$DEVICE/obj/PACKAGING/target_files_intermediates/*target_files*.zip \
                     out/target/product/$DEVICE/jenkins-signed-target_files.zip
                 ./build/tools/releasetools/ota_from_target_files -k '''+CERTS_DIR+''' \
                     --block --backup=true \
