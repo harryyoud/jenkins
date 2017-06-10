@@ -122,7 +122,7 @@ timestamps {
                 ./build/tools/releasetools/sign_target_files_apks -o -d '''+CERTS_DIR+''' \
                     out/dist/*-target_files-*.zip \
                     out/target/product/$DEVICE/jenkins-signed-target_files.zip
-                ./build/tools/releasetools/ota_from_target_files -k ~/.android-certs/releasekey \
+                ./build/tools/releasetools/ota_from_target_files -k '''+CERTS_DIR+''' \
                     --block --backup=true \
                     out/target/product/$DEVICE/jenkins-signed-target_files.zip \
                     out/target/product/$DEVICE/lineage-14.1-$(date +%Y%m%d)-UNOFFICIAL-$DEVICE-signed.zip
