@@ -5,7 +5,8 @@
 			"repopick_nums": "172537,175678",
 			"repopick_tops": "pixelify,angler_core_ctl",
 			"with_gapps": "true",
-			"signed": "true"
+			"signed": "true",
+			"signed_backuptool": "false"
 	},
 	{
 			"device": "d2att",

@@ -119,7 +119,7 @@ timestamps {
                     out/target/product/$DEVICE/obj/PACKAGING/target_files_intermediates/*target_files*.zip \
                     out/target/product/$DEVICE/jenkins-signed-target_files.zip
                 ./build/tools/releasetools/ota_from_target_files -k '''+CERTS_DIR+'''/releasekey \
-                    --block --backup=true \
+                    --block --backup=$SIGNED_BACKUPTOOL \
                     out/target/product/$DEVICE/jenkins-signed-target_files.zip \
                     out/target/product/$DEVICE/lineage-14.1-$(date +%Y%m%d)-UNOFFICIAL-$DEVICE-signed.zip
             '''
