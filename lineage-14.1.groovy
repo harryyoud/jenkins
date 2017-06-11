@@ -114,11 +114,12 @@ timestamps {
                 set +x
                 set -e
                 cd '''+BUILD_TREE+'''
+                OtaScriptPath=$([ -f out/target/product/$DEVICE/ota_script_path ] && cat "out/target/product/$DEVICE/ota_script_path" || echo "build/tools/releasetools/ota_from_target_files")
                 rm -f out/target/product/$DEVICE/lineage-14.1-*.zip
                 ./build/tools/releasetools/sign_target_files_apks -o -d '''+CERTS_DIR+''' \
                     out/target/product/$DEVICE/obj/PACKAGING/target_files_intermediates/*target_files*.zip \
                     out/target/product/$DEVICE/jenkins-signed-target_files.zip
-                ./build/tools/releasetools/ota_from_target_files -k '''+CERTS_DIR+'''/releasekey \
+                $OtaScriptPath -k '''+CERTS_DIR+'''/releasekey \
                     --block --backup=$SIGNED_BACKUPTOOL \
                     out/target/product/$DEVICE/jenkins-signed-target_files.zip \
                     out/target/product/$DEVICE/lineage-14.1-$(date +%Y%m%d)-UNOFFICIAL-$DEVICE-signed.zip
