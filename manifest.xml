@@ -12,6 +12,7 @@
   <project name="TheMuppets/proprietary_vendor_huawei" path="vendor/huawei" />
   <project name="harryyoud/proprietary_vendor_invensense" path="vendor/invensense" />
   <project name="TheMuppets/proprietary_vendor_motorola" path="vendor/motorola" />
+  <project name="TheMuppets/proprietary_vendor_nextbit" path="vendor/nextbit" />
   <project name="harryyoud/proprietary_vendor_nvidia" path="vendor/nvidia" />
   <project name="TheMuppets/proprietary_vendor_samsung" path="vendor/samsung" />
   <project name="harryyoud/proprietary_vendor_widevine" path="vendor/widevine" />

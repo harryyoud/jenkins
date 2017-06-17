@@ -15,6 +15,11 @@
 			"repopick_nums": "171142,169431,164202,157956,172006"
 	},
 	{
+			"device": "ether",
+			"build_type": "userdebug",
+			"repopick_nums": "174204,177756,172006"
+	},
+	{
 			"device": "falcon",
 			"build_type": "userdebug"
 	},
