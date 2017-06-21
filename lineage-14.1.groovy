@@ -1,4 +1,5 @@
 String calcDate() { ['date', '+%Y%m%d'].execute().text.trim()}
+String calcTimestamp() { ['date', '+%s'].execute().text.trim()}
 
 def MIRROR_TREE = "/mnt/Media/Lineage"
 def BUILD_TREE  = "/mnt/Android/lineage/14.1"
@@ -6,6 +7,8 @@ def CCACHE_DIR  = "/mnt/Android/ccache"
 def CERTS_DIR   = "/mnt/Android/.android-certs"
 
 def basejobname = DEVICE + '-' + calcDate() + '-' + BUILD_TYPE
+
+def timestamp = calcTimestamp()
 
 node("the-revenge"){
 timestamps {
@@ -150,7 +153,9 @@ timestamps {
         sh '''#!/bin/bash
             set +x
             if [ $OTA = 'true' ]; then
-                scp '''+BUILD_TREE+'''/out/target/product/$DEVICE/lineage-14.1-* root@builder.harryyoud.co.uk:/srv/www/builder.harryyoud.co.uk/lineage/
+                zipname=$(find '''+BUILD_TREE+'''/out/target/product/$DEVICE/ -name 'lineage-14.1-*.zip' -type f -printf "%f\\n")
+                ssh root@builder.harryyoud.co.uk mkdir -p /srv/www/builder.harryyoud.co.uk/lineage/$DEVICE/'''+timestamp+'''/
+                scp '''+BUILD_TREE+'''/out/target/product/$DEVICE/$zipname root@builder.harryyoud.co.uk:/srv/www/builder.harryyoud.co.uk/lineage/$DEVICE/'''+timestamp+'''/
             else
                 echo "Skipping as this is not a production build. Artifacts will be available in Jenkins"
             fi
@@ -162,9 +167,9 @@ timestamps {
                 set +x
                 cd '''+BUILD_TREE+'''/out/target/product/$DEVICE
                 if [ $OTA = 'true' ]; then
-                    newname=$(find -name 'lineage-14.1-*.zip' -printf '%f\\n')
-                    md5sum=$(cat lineage-14.1-*.zip.md5sum)
-                    curl -H "Apikey: $UPDATER_API_KEY" -H "Content-Type: application/json" -X POST -d '{ "device": "'"$DEVICE"'", "filename": "'"$newname"'", "md5sum": "'"${md5sum:0:32}"'", "romtype": "unofficial", "url": "'"http://builder.harryyoud.co.uk/lineage/$newname"'", "version": "'"14.1"'" }' "https://lineage.harryyoud.co.uk/api/v1/add_build"
+                    zipname=$(find -name 'lineage-14.1-*.zip' -type f -printf '%f\\n')
+                    md5sum=$(md5sum $zipname)
+                    curl -H "Apikey: $UPDATER_API_KEY" -H "Content-Type: application/json" -X POST -d '{ "device": "'"$DEVICE"'", "filename": "'"$zipname"'", "md5sum": "'"${md5sum:0:32}"'", "romtype": "unofficial", "url": "'"http://builder.harryyoud.co.uk/lineage/$DEVICE/'''+timestamp+'''/$zipname"'", "version": "'"14.1"'" }' "https://lineage.harryyoud.co.uk/api/v1/add_build"
                 fi
             '''
         }
