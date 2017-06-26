@@ -17,8 +17,8 @@
 	{
 			"device": "ether",
 			"build_type": "userdebug",
-			"repopick_nums": "177847,175968,175961,178805,177960",
-			"repopick_tops": "ether-hacks,pixelify"
+			"repopick_nums": "177847,175968,175961,178805,177960,157956",
+			"repopick_tops": "ether-hacks"
 	},
 	{
 			"device": "falcon",
