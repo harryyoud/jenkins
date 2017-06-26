@@ -17,7 +17,7 @@
 	{
 			"device": "ether",
 			"build_type": "userdebug",
-			"repopick_nums": "177847,175968,175961,178805,177960,157956",
+			"repopick_nums": "175961,175968,177847,178805,177960,157956",
 			"repopick_tops": "ether-hacks"
 	},
 	{
