@@ -4,7 +4,7 @@
   <project name="LineageOS/android_device_asus_grouper" path="device/asus/grouper" revision="staging/cm-14.1" />
   <project name="LineageOS/android_kernel_asus_grouper" path="kernel/asus/grouper" revision="staging/cm-14.1" />
   <!-- Tilapia bringup -->
-  <project name="harryyoud/android_device_asus_tilapia-3.4" path="device/asus/tilapia" />
+  <project name="harryyoud/android_device_asus_tilapia" path="device/asus/tilapia" staging="staging/cm-14.1" />
   <!-- Proprietaries + Grouper staging-->
   <project name="harryyoud/proprietary_vendor_asus" path="vendor/asus" />
   <project name="harryyoud/proprietary_vendor_broadcom" path="vendor/broadcom" />
