@@ -81,6 +81,9 @@ node("the-revenge"){
                 else
                     echo "No repopick topics chosen"
                 fi
+                if [[ $WITH_OMS = 'true' ]]; then
+                    vendor/extra/patch.sh
+                fi
             '''
         }
         stage('Clean'){

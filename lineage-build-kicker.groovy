@@ -21,6 +21,7 @@ node("master"){
 			string(name: 'WITH_SU', value: (json[i].with_su == null) ? "false" : json[i].with_su),
 			string(name: 'WITH_GAPPS', value: (json[i].with_gapps == null) ? "false" : json[i].with_gapps),
 			string(name: 'WITH_DEXPREOPT', value: (json[i].with_dexpreopt == null) ? "false" : json[i].with_dexpreopt),
+			string(name: 'WITH_OMS', value: (json[i].with_oms == null) ? "false" : json[i].with_oms),
 			string(name: 'OTA', value: (json[i].ota == null) ? "true" : json[i].ota),
 			string(name: 'SIGNED', value: (json[i].signed == null) ? "false" : json[i].signed),
 			string(name: 'SIGNED_BACKUPTOOL', value: (json[i].signed_backuptool == null) ? "true" : json[i].signed_backuptool),			
