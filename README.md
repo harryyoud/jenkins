@@ -9,6 +9,7 @@ Parameters:
 | Parameter | Values/Examples | Description | Default |
 | --------- | --------------- | ----------- | ------- |
 | `device` | `angler`, `bullhead`, `marlin` | device codename for the device to build. These are typically all lowercase and usually bear no relation to the consumer name for the device | `HELP-omgwtfbbq` (will fail the build) |
+| `version` | `14.1`, `13.0`, `11` | version of LineageOS to build | `14.1` |
 | `build_type` | `user`, `userdebug`, `eng` | the type of build to make. See the differences in the [Android docs](https://source.android.com/source/add-device#build-variants) | `userdebug` |
 | `ota` | `true`, `false` | If true, the build is uploaded to [OTA server](https://lineage.harryyoud.co.uk), where it can be distributed over the air to devices | `true` |
 | `repopick_nums` | `157953,172537` | Comma separated list of changes to download from the [LineageOS Gerrit](https://review.lineageos.org) | (blank) |
@@ -29,9 +30,9 @@ If it is given a `device` parameter (eg, when launched manually), it loops over 
 
 Very simply just runs `repo sync` in the mirror directory
 
-## lineage-14.1
+## lineage-build
 
-Builds lineage-14.1 for a number of devices with specified parameters. The parameters have almost identical names to those used in `lineage-targets.json`
+Builds LineageOS for a number of devices with specified parameters. The parameters have almost identical names to those used in `lineage-targets.json`
 
 Stages:
 1. Sync mirror
@@ -39,7 +40,7 @@ Stages:
   - If this is an automatic (timed) job (eg. triggered by `lineage-build-kicker`), this stage is skipped, as it was already done in the `lineage-build-kicker` job
 2. Input manifest
   - Delete files in `.repo/local_manifests/`
-  - Download `./manifest.xml` to .repo/local_manifests
+  - Download `./manifest-$version.xml` to .repo/local_manifests
 3. Sync
   - Reset all repos to `HEAD`
   - Sync from mirror

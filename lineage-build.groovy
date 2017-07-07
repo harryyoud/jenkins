@@ -2,11 +2,11 @@ String calcDate() { ['date', '+%Y%m%d'].execute().text.trim()}
 String calcTimestamp() { ['date', '+%s'].execute().text.trim()}
 
 def MIRROR_TREE = "/mnt/Media/Lineage"
-def BUILD_TREE  = "/mnt/Android/lineage/14.1"
+def BUILD_TREE  = "/mnt/Android/lineage/" + VERSION
 def CCACHE_DIR  = "/mnt/Android/ccache"
 def CERTS_DIR   = "/mnt/Android/.android-certs"
 
-def basejobname = DEVICE + '-' + calcDate() + '-' + BUILD_TYPE
+def basejobname = DEVICE + '-' + VERSION + '-' + calcDate() + '-' + BUILD_TYPE
 
 def timestamp = calcTimestamp()
 
@@ -23,6 +23,17 @@ node("the-revenge"){
         if(BOOT_IMG_ONLY == 'true') {
             OTA = false
         }
+        if(VERSION == '11') {
+            OTA = false
+            WITH_DEXPREOPT = false
+            WITH_GAPPS = false
+            WITH_OMS = false
+            WITH_SU = false
+        }
+        if(VERSION == '13.0') {
+            WITH_GAPPS = false
+            WITH_OMS = false
+        }
         stage('Sync mirror'){
             sh '''#!/bin/bash
                 if [ $CRON_RUN = 'true' ]; then
@@ -38,7 +49,7 @@ node("the-revenge"){
                 cd '''+BUILD_TREE+'''
                 rm -rf .repo/local_manifests
                 mkdir .repo/local_manifests
-                curl --silent "https://raw.githubusercontent.com/harryyoud/jenkins/master/manifest.xml" > .repo/local_manifests/roomservice.xml
+                curl --silent "https://raw.githubusercontent.com/harryyoud/jenkins/master/manifest-$VERSION.xml" > .repo/local_manifests/roomservice.xml
             '''
         }
         stage('Sync'){
@@ -103,15 +114,19 @@ node("the-revenge"){
                 export CCACHE_COMPRESS=1
                 export CCACHE_DIR='''+CCACHE_DIR+'''
                 lunch lineage_$DEVICE-$BUILD_TYPE
-                ./prebuilts/sdk/tools/jack-admin list-server && ./prebuilts/sdk/tools/jack-admin kill-server
-                export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx6g"
-                ./prebuilts/sdk/tools/jack-admin start-server
+                if [[ $VERSION = '14.1' ]]; then
+                    ./prebuilts/sdk/tools/jack-admin list-server && ./prebuilts/sdk/tools/jack-admin kill-server
+                    export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx6g"
+                    ./prebuilts/sdk/tools/jack-admin start-server
+                fi
                 if [ $BOOT_IMG_ONLY = 'true' ]; then
                     mka bootimage
                 else
                     mka bacon
                 fi
-                ./prebuilts/sdk/tools/jack-admin list-server && ./prebuilts/sdk/tools/jack-admin kill-server
+                if [[ $VERSION = '14.1' ]]; then
+                    ./prebuilts/sdk/tools/jack-admin list-server && ./prebuilts/sdk/tools/jack-admin kill-server
+                fi
             '''
         }
         if(SIGNED == 'true'){
@@ -121,14 +136,14 @@ node("the-revenge"){
                     set -e
                     cd '''+BUILD_TREE+'''
                     OtaScriptPath=$([ -f out/target/product/$DEVICE/ota_script_path ] && cat "out/target/product/$DEVICE/ota_script_path" || echo "build/tools/releasetools/ota_from_target_files")
-                    rm -f out/target/product/$DEVICE/lineage-14.1-*.zip
+                    rm -f out/target/product/$DEVICE/lineage-$VERSION-*.zip
                     ./build/tools/releasetools/sign_target_files_apks -o -d '''+CERTS_DIR+''' \
                         out/target/product/$DEVICE/obj/PACKAGING/target_files_intermediates/*target_files*.zip \
                         out/target/product/$DEVICE/jenkins-signed-target_files.zip
                     $OtaScriptPath -k '''+CERTS_DIR+'''/releasekey \
                         --block --backup=$SIGNED_BACKUPTOOL \
                         out/target/product/$DEVICE/jenkins-signed-target_files.zip \
-                        out/target/product/$DEVICE/lineage-14.1-$(date +%Y%m%d)-UNOFFICIAL-$DEVICE-signed.zip
+                        out/target/product/$DEVICE/lineage-$VERSION-$(date +%Y%m%d)-UNOFFICIAL-$DEVICE-signed.zip
                 '''
             }
         }
@@ -137,7 +152,7 @@ node("the-revenge"){
                 set +x
                 set -e
                 if ! [[ $OTA = 'true' || $BOOT_IMG_ONLY = 'true' ]]; then
-                    cp '''+BUILD_TREE+'''/out/target/product/$DEVICE/lineage-14.1-* .
+                    cp '''+BUILD_TREE+'''/out/target/product/$DEVICE/lineage-$VERSION-* .
                 fi
                 if [ $BOOT_IMG_ONLY = 'true' ]; then
                     cp '''+BUILD_TREE+'''/out/target/product/$DEVICE/boot.img .
@@ -156,9 +171,12 @@ node("the-revenge"){
             sh '''#!/bin/bash
                 set +x
                 if [ $OTA = 'true' ]; then
-                    zipname=$(find '''+BUILD_TREE+'''/out/target/product/$DEVICE/ -name 'lineage-14.1-*.zip' -type f -printf "%f\\n")
-                    ssh root@builder.harryyoud.co.uk mkdir -p /srv/www/builder.harryyoud.co.uk/lineage/$DEVICE/'''+timestamp+'''/
-                    scp '''+BUILD_TREE+'''/out/target/product/$DEVICE/$zipname root@builder.harryyoud.co.uk:/srv/www/builder.harryyoud.co.uk/lineage/$DEVICE/'''+timestamp+'''/
+                    if [[ ! $VERSION = '11' ]]; then
+                        zipname=$(find '''+BUILD_TREE+'''/out/target/product/$DEVICE/ -name 'lineage-14.1-*.zip' -type f -printf "%f\\n")
+                        ssh root@builder.harryyoud.co.uk mkdir -p /srv/www/builder.harryyoud.co.uk/lineage/$DEVICE/'''+timestamp+'''/
+                        scp '''+BUILD_TREE+'''/out/target/product/$DEVICE/$zipname root@builder.harryyoud.co.uk:/srv/www/builder.harryyoud.co.uk/lineage/$DEVICE/'''+timestamp+'''/
+                    else
+                        echo "CM11 does not support OTAs using https://github.com/LineageOS/lineageos_updater"
                 else
                     echo "Skipping as this is not a production build. Artifacts will be available in Jenkins"
                 fi
@@ -170,7 +188,7 @@ node("the-revenge"){
                     set +x
                     cd '''+BUILD_TREE+'''/out/target/product/$DEVICE
                     if [ $OTA = 'true' ]; then
-                        zipname=$(find -name 'lineage-14.1-*.zip' -type f -printf '%f\\n')
+                        zipname=$(find -name "lineage-$VERSION-*.zip" -type f -printf '%f\n')
                         md5sum=$(md5sum $zipname)
                         curl -H "Apikey: $UPDATER_API_KEY" -H "Content-Type: application/json" -X POST -d '{ "device": "'"$DEVICE"'", "filename": "'"$zipname"'", "md5sum": "'"${md5sum:0:32}"'", "romtype": "unofficial", "url": "'"http://builder.harryyoud.co.uk/lineage/$DEVICE/'''+timestamp+'''/$zipname"'", "version": "'"14.1"'" }' "https://lineage.harryyoud.co.uk/api/v1/add_build"
                     fi
