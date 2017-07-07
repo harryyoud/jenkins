@@ -22,7 +22,18 @@
 	},
 	{
 			"device": "falcon",
-			"build_type": "userdebug"
+			"build_type": "userdebug",
+			"version": "14.1"
+	},
+	{
+			"device": "falcon",
+			"build_type": "userdebug",
+			"version": "13.0"
+	},
+	{
+			"device": "falcon",
+			"build_type": "userdebug",
+			"version": "11"
 	},
 	{
 			"device": "flounder",
