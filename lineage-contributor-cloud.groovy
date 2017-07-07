@@ -6,7 +6,7 @@ timestamps {
             # Don't delete this folder, as it contains all the repos
             # downloaded by the script, which take a lot of time to download
             # TODO: symlink repo directory to ..
-            if [ -d contributors-cloud-generator ]; then
+            if ! [ -d contributors-cloud-generator ]; then
                 git clone git@github.com:LineageOS/contributors-cloud-generator
             fi
             cd contributors-cloud-generator
