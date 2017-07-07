@@ -4,7 +4,7 @@ String calcTimestamp() { ['date', '+%s'].execute().text.trim()}
 def MIRROR_TREE = "/mnt/Media/Lineage"
 def BUILD_TREE  = "/mnt/Android/lineage/" + VERSION
 def CCACHE_DIR  = "/mnt/Android/ccache"
-def CERTS_DIR   = "/mnt/Android/.android-certs"
+def CERTS_DIR   = "/mnt/Android/certs"
 
 def basejobname = DEVICE + '-' + VERSION + '-' + calcDate() + '-' + BUILD_TYPE
 
