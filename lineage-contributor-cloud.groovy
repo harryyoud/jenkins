@@ -14,8 +14,8 @@ timestamps {
             git reset --hard origin/master
             rm -rf ../android_packages_apps_CMParts
             rm -rf ../android_packages_apps_Settings
-            git fetch -b cm-14.1 https://github.com/LineageOS/android_packages_apps_CMParts ../android_packages_apps_CMParts
-            git fetch -b cm-13.0 https://github.com/LineageOS/android_packages_apps_Settings ../android_packages_apps_Settings
+            git clone -b cm-14.1 https://github.com/LineageOS/android_packages_apps_CMParts ../android_packages_apps_CMParts
+            git clone -b cm-13.0 https://github.com/LineageOS/android_packages_apps_Settings ../android_packages_apps_Settings
             cd ..
         '''
     }
