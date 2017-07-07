@@ -1,6 +1,6 @@
 node("the-revenge"){
     sh '''#!/bin/bash +x
-        cd /mnt/Media/Lineage/
+        cd /mnt/Data/AndroidMirror/
         repo sync -j16
     '''
 }
