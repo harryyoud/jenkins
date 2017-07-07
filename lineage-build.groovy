@@ -113,7 +113,7 @@ node("the-revenge"){
                 export USE_CCACHE=1
                 export CCACHE_COMPRESS=1
                 export CCACHE_DIR='''+CCACHE_DIR+'''
-                lunch lineage_$DEVICE-$BUILD_TYPE
+                lunch lineage_$DEVICE-$BUILD_TYPE || lunch cm_$DEVICE-$BUILD_TYPE
                 if [[ $VERSION = '14.1' ]]; then
                     ./prebuilts/sdk/tools/jack-admin list-server && ./prebuilts/sdk/tools/jack-admin kill-server
                     export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx6g"
