@@ -177,6 +177,7 @@ node("the-revenge"){
                         scp '''+BUILD_TREE+'''/out/target/product/$DEVICE/$zipname root@builder.harryyoud.co.uk:/srv/www/builder.harryyoud.co.uk/lineage/$DEVICE/'''+timestamp+'''/
                     else
                         echo "CM11 does not support OTAs using https://github.com/LineageOS/lineageos_updater"
+                    fi
                 else
                     echo "Skipping as this is not a production build. Artifacts will be available in Jenkins"
                 fi
