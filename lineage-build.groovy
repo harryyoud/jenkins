@@ -45,7 +45,7 @@ node("the-revenge"){
             '''
         }
         stage('Input manifest'){
-            sh '''#!/bin/bash +x
+            sh '''#!/bin/bash
                 cd '''+BUILD_TREE+'''
                 rm -rf .repo/local_manifests
                 mkdir .repo/local_manifests
@@ -54,7 +54,6 @@ node("the-revenge"){
         }
         stage('Sync'){
             sh '''#!/bin/bash
-                set +x
                 cd '''+BUILD_TREE+'''
                 repo forall -c "git reset --hard"
                 repo forall -c "git clean -f -d"
@@ -67,7 +66,6 @@ node("the-revenge"){
         }
         stage('Output manifest'){
             sh '''#!/bin/bash
-                set +x
                 cd '''+BUILD_TREE+'''
                 rm -r manifests
                 mkdir -p manifests
@@ -99,14 +97,12 @@ node("the-revenge"){
         }
         stage('Clean'){
             sh '''#!/bin/bash
-                set +x
                 cd '''+BUILD_TREE+'''
                 make clean
             '''
         }
         stage('Build'){
             sh '''#!/bin/bash
-                set +x
                 set -e
                 cd '''+BUILD_TREE+'''
                 . build/envsetup.sh
@@ -132,7 +128,6 @@ node("the-revenge"){
         if(SIGNED == 'true'){
             stage('Sign build'){
                 sh'''#!/bin/bash
-                    set +x
                     set -e
                     cd '''+BUILD_TREE+'''
                     OtaScriptPath=$([ -f out/target/product/$DEVICE/ota_script_path ] && cat "out/target/product/$DEVICE/ota_script_path" || echo "build/tools/releasetools/ota_from_target_files")
@@ -149,7 +144,6 @@ node("the-revenge"){
         }
         stage('Upload to Jenkins'){
             sh '''#!/bin/bash
-                set +x
                 set -e
                 if ! [[ $OTA = 'true' || $BOOT_IMG_ONLY = 'true' ]]; then
                     cp '''+BUILD_TREE+'''/out/target/product/$DEVICE/lineage-$VERSION-* .
@@ -163,13 +157,11 @@ node("the-revenge"){
             '''
             archiveArtifacts artifacts: '*'
             sh '''#!/bin/bash
-                set +x
                 rm *
             '''
         }
         stage('Upload to www'){
             sh '''#!/bin/bash
-                set +x
                 if [ $OTA = 'true' ]; then
                     if [[ ! $VERSION = '11' ]]; then
                         zipname=$(find '''+BUILD_TREE+'''/out/target/product/$DEVICE/ -name 'lineage-14.1-*.zip' -type f -printf "%f\\n")
@@ -186,7 +178,6 @@ node("the-revenge"){
         stage('Add to updater'){
             withCredentials([string(credentialsId: '3ad6afb4-1f2a-45e9-94c7-b2b511f81d50', variable: 'UPDATER_API_KEY')]) {
                 sh '''#!/bin/bash
-                    set +x
                     cd '''+BUILD_TREE+'''/out/target/product/$DEVICE
                     if [ $OTA = 'true' ]; then
                         zipname=$(find -name "lineage-$VERSION-*.zip" -type f -printf '%f\n')
