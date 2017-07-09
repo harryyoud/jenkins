@@ -112,6 +112,9 @@ node("the-revenge"){
                     cd vendor/cm
                     ./get-prebuilts
                     cd ../..
+                    export JAVA_HOME=/usr/lib/jvm/java-7-openjdk-amd64/jre/
+                    export JDK_HOME=/usr/lib/jvm/java-7-openjdk-amd64/
+                    export PATH=$JDK_HOME/bin:$JAVA_HOME:$PATH
                 fi
                 lunch lineage_$DEVICE-$BUILD_TYPE || lunch cm_$DEVICE-$BUILD_TYPE
                 if [[ $VERSION = '14.1' ]]; then
