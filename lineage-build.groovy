@@ -102,7 +102,7 @@ node("the-revenge"){
             '''
         }
         stage('Build'){
-            sh '''#!/bin/bash
+            sh '''#!/bin/bash +e
                 cd '''+BUILD_TREE+'''
                 . build/envsetup.sh
                 export USE_CCACHE=1
