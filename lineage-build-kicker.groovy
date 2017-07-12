@@ -15,7 +15,7 @@ node("master"){
             }
         }
         echo "Kicking off a build for ${json[i].device}"
-        build job: 'lineage-14.1', parameters: [
+        build job: 'lineage-build', parameters: [
             string(name: 'VERSION', value: (json[i].version == null) ? "14.1" : json[i].version),
             string(name: 'DEVICE', value: (json[i].device == null) ? "HELP-omgwtfbbq" : json[i].device),
             string(name: 'BUILD_TYPE', value: (json[i].build_type == null) ? "userdebug" : json[i].build_type),
