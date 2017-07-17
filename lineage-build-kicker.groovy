@@ -12,6 +12,7 @@ node("master"){
                 if(version != json[i].version) {
                     continue
                 }
+                continue
             }
         }
         echo "Kicking off a build for ${json[i].device}"
