@@ -55,6 +55,8 @@ node("the-revenge"){
         stage('Sync'){
             sh '''#!/bin/bash
                 cd '''+BUILD_TREE+'''
+                repo forall -c "git cherry-pick --abort"
+                repo forall -c "git merge --abort"
                 repo forall -c "git reset --hard"
                 repo forall -c "git clean -f -d"
                 repo sync -d -c -j128 --force-sync
@@ -78,14 +80,14 @@ node("the-revenge"){
                 . build/envsetup.sh
                 if ! [ -z $REPOPICK_NUMBERS ]; then
                     for rpnum in ${REPOPICK_NUMBERS//,/ }; do
-                        repopick -fg ssh://harryyoud@review.lineageos.org:29418 $rpnum
+                        repopick -fg ssh://harryyoud@review.lineageos.org:29418 $rpnum || { echo "repopick failed, aborting cherry-pick"; repo forall -c 'git cherry-pick --abort' 2>/dev/null }
                     done
                 else
                     echo "No repopick numbers chosen"
                 fi
                 if ! [ -z $REPOPICK_TOPICS ]; then
                     for rptopic in ${REPOPICK_TOPICS//,/ }; do
-                        repopick -fg ssh://harryyoud@review.lineageos.org:29418 -t $rptopic
+                        repopick -fg ssh://harryyoud@review.lineageos.org:29418 -t $rptopic || { echo "repopick failed, aborting cherry-pick"; repo forall -c 'git cherry-pick --abort' 2> /dev/null }
                     done
                 else
                     echo "No repopick topics chosen"
