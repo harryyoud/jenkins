@@ -3,6 +3,9 @@ String getDevices() { ['curl', '-s', 'https://raw.githubusercontent.com/harryyou
 
 def jsonParse(def json) { new groovy.json.JsonSlurperClassic().parseText(json) }
 
+def global_repopick_nums = null
+def global_repopick_tops = null
+
 node("master"){
     build job: 'lineage-mirror-sync', propogate: true, wait: true
     def json = jsonParse(getDevices())
@@ -15,6 +18,11 @@ node("master"){
                 continue
             }
         }
+        if(json[i].device == "GLOBAL") {
+            global_repopick_nums = json[i].repopick_nums
+            global_repopick_tops = json[i].repopick_tops
+            continue
+        }
         echo "Kicking off a build for ${json[i].device}"
         build job: 'lineage-build', parameters: [
             string(name: 'VERSION', value: (json[i].version == null) ? "14.1" : json[i].version),
@@ -22,6 +30,8 @@ node("master"){
             string(name: 'BUILD_TYPE', value: (json[i].build_type == null) ? "userdebug" : json[i].build_type),
             string(name: 'REPOPICK_NUMBERS', value: (json[i].repopick_nums == null) ? "" : json[i].repopick_nums),
             string(name: 'REPOPICK_TOPICS', value: (json[i].repopick_tops == null) ? "" : json[i].repopick_tops),
+            string(name: 'GLOBAL_REPOPICK_NUMBERS', value: (global_repopick_nums == null) ? "" : global_repopick_nums),
+            string(name: 'GLOBAL_REPOPICK_TOPICS', value: (global_repopick_tops == null) ? "" : global_repopick_tops),
             string(name: 'WITH_SU', value: (json[i].with_su == null) ? "false" : json[i].with_su),
             string(name: 'WITH_GAPPS', value: (json[i].with_gapps == null) ? "false" : json[i].with_gapps),
             string(name: 'WITH_DEXPREOPT', value: (json[i].with_dexpreopt == null) ? "false" : json[i].with_dexpreopt),
