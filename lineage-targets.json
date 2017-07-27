@@ -1,5 +1,9 @@
 [
 	{
+			"device": "GLOBAL",
+			"repopick_tops": "updater-app"
+	},
+	{
 			"device": "angler",
 			"build_type": "user",
 			"repopick_nums": "172537,175678",
