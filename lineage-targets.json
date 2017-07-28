@@ -6,8 +6,8 @@
 	{
 			"device": "angler",
 			"build_type": "user",
-			"repopick_nums": "172537,175678",
-			"repopick_tops": "pixelify,angler_core_ctl",
+			"repopick_nums": "174204",
+			"repopick_tops": "angler-gapps,angler-hbm,angler_core_ctl,pixelify",
 			"with_gapps": "true",
 			"signed": "true",
 			"signed_backuptool": "false"
