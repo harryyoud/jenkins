@@ -185,7 +185,7 @@ node("the-revenge"){
             sh '''#!/bin/bash
                 if [ $OTA = 'true' ]; then
                     if [[ ! $VERSION = '11' ]]; then
-                        zipname=$(find '''+BUILD_TREE+'''/out/target/product/$DEVICE/ -name 'lineage-$VERSION-*.zip' -type f -printf "%f\\n")
+                        zipname=$(find '''+BUILD_TREE+'''/out/target/product/$DEVICE/ -name 'lineage-'$VERSION'-*.zip' -type f -printf "%f\\n")
                         ssh root@builder.harryyoud.co.uk mkdir -p /srv/www/builder.harryyoud.co.uk/lineage/$DEVICE/'''+timestamp+'''/
                         scp '''+BUILD_TREE+'''/out/target/product/$DEVICE/$zipname root@builder.harryyoud.co.uk:/srv/www/builder.harryyoud.co.uk/lineage/$DEVICE/'''+timestamp+'''/
                     else
