@@ -1,7 +1,7 @@
 String calcDate() { ['date', '+%Y%m%d'].execute().text.trim()}
 String calcTimestamp() { ['date', '+%s'].execute().text.trim()}
 
-def MIRROR_TREE = "/mnt/Media/Lineage"
+def MIRROR_TREE = "/mnt/Data/AndroidMirror"
 def BUILD_TREE  = "/mnt/Android/lineage/" + VERSION
 def CCACHE_DIR  = "/mnt/Android/ccache"
 def CERTS_DIR   = "/mnt/Android/certs"
