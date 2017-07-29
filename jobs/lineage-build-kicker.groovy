@@ -1,5 +1,5 @@
 import groovy.json.JsonSlurper
-String getDevices() { ['curl', '-s', 'https://raw.githubusercontent.com/harryyoud/jenkins/master/lineage-targets.json'].execute().text }
+String getDevices() { ['curl', '-s', 'https://raw.githubusercontent.com/harryyoud/jenkins/master/resources/lineage-targets.json'].execute().text }
 
 def jsonParse(def json) { new groovy.json.JsonSlurperClassic().parseText(json) }
 

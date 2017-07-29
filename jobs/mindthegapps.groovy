@@ -1,4 +1,4 @@
-String getDevices() { ['curl', '-s', 'https://raw.githubusercontent.com/harryyoud/jenkins/master/mindthegapps-targets'].execute().text }
+String getDevices() { ['curl', '-s', 'https://raw.githubusercontent.com/harryyoud/jenkins/master/resources/mindthegapps-targets'].execute().text }
 node("master"){
     stage('Clone repository') {
     git url: 'https://github.com/MindTheGapps/vendor_gapps'}
