@@ -65,7 +65,7 @@ node("the-revenge"){
           repo forall -c "git reset --hard"
           repo forall -c "git clean -f -d"
           . build/envsetup.sh
-          breakfast $DEVICE
+          breakfast lineage_$DEVICE-$BUILD_TYPE || breakfast cm_$DEVICE-$BUILD_TYPE
         '''
       }
       stage('Output manifest'){
