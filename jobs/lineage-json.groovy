@@ -2,8 +2,8 @@ def slack
 node("master"){ slack = load "${workspace}@script/includes/slack-send.groovy" }
 
 node("master"){
-  stage('Clone'){
-    try {
+  try {
+    stage('Clone'){
       withCredentials([string(credentialsId: '6011576d-29fd-4457-9b00-5c4b153822ef', variable: 'GH_API_KEY')]) {
         sh '''#!/bin/bash +x
           set -e
