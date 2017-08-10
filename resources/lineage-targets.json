@@ -9,6 +9,7 @@
 			"repopick_nums": "174204",
 			"repopick_tops": "angler-gapps,angler-hbm,angler_core_ctl,pixelify",
 			"with_gapps": "true",
+			"with_oms": "true",
 			"signed": "true",
 			"signed_backuptool": "false"
 	},

@@ -23,8 +23,8 @@
   <project name="omnirom/android_bootable_recovery" path="bootable/recovery-twrp" revision="android-7.1" />
   <!-- Bundle Gapps -->
   <project name="harryyoud/vendor_gapps" path="vendor/gapps" revision="nexus" />
-  <!-- OMS (currently disabled) -->
-  <!--<project name="substratum/interfacer" path="packages/apps/ThemeInterfacer" remote="github" revision="n-rootless" />-->
+  <!-- OMS -->
+  <project name="substratum/interfacer" path="packages/apps/ThemeInterfacer" remote="github" revision="n-rootless" />
   <remove-project name="LineageOS/android_packages_apps_CMUpdater" />
   <project name="gmrt/android_packages_apps_Updater" path="packages/apps/Updater" remote="private" revision="master" />
 </manifest>
