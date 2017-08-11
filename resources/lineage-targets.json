@@ -1,15 +1,14 @@
 [
 	{
 			"device": "GLOBAL",
-			"repopick_tops": "updater-app"
+			"repopick_tops": ""
 	},
 	{
 			"device": "angler",
 			"build_type": "user",
 			"repopick_nums": "174204",
-			"repopick_tops": "angler-gapps,angler-hbm,angler_core_ctl,pixelify",
+			"repopick_tops": "angler-gapps,angler-hbm,angler_core_ctl,oms-for-pa-color-engine,pa-color-engine",
 			"with_gapps": "true",
-			"with_oms": "true",
 			"signed": "true",
 			"signed_backuptool": "false"
 	},

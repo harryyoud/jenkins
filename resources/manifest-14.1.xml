@@ -25,6 +25,4 @@
   <project name="harryyoud/vendor_gapps" path="vendor/gapps" revision="nexus" />
   <!-- OMS -->
   <project name="substratum/interfacer" path="packages/apps/ThemeInterfacer" remote="github" revision="n-rootless" />
-  <remove-project name="LineageOS/android_packages_apps_CMUpdater" />
-  <project name="gmrt/android_packages_apps_Updater" path="packages/apps/Updater" remote="private" revision="master" />
 </manifest>
