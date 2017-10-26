@@ -16,8 +16,10 @@ node("master"){
           cd contributors-cloud-generator
           git fetch origin
           git reset --hard origin/master
+          rm -rf ../android_packages_apps_LineageParts
           rm -rf ../android_packages_apps_CMParts
           rm -rf ../android_packages_apps_Settings
+          git clone -b lineage-15.0 https://github.com/LineageOS/android_packages_apps_LineageParts ../android_packages_apps_LineageParts
           git clone -b cm-14.1 https://github.com/LineageOS/android_packages_apps_CMParts ../android_packages_apps_CMParts
           git clone -b cm-13.0 https://github.com/LineageOS/android_packages_apps_Settings ../android_packages_apps_Settings
           cd ..
@@ -46,7 +48,14 @@ node("master"){
       stage('Create draft changes'){
         sh '''#!/bin/bash
           set -e
-          cd android_packages_apps_CMParts
+          cd android_packages_apps_LineageParts
+          cp ../contributors-cloud-generator/out/cloud.db assets/contributors.db
+          git add assets/contributors.db
+          scp -p -P 29418 harryyoud@review.lineageos.org:hooks/commit-msg .git/hooks/
+          git commit -m "Regenerate contributors cloud" --author "Harry Youd <harry@harryyoud.co.uk>"
+          git commit --amend --no-edit
+          git push ssh://harryyoud@review.lineageos.org:29418/LineageOS/android_packages_apps_LineageParts HEAD:refs/drafts/lineage-15.0
+          cd ../android_packages_apps_CMParts
           cp ../contributors-cloud-generator/out/cloud.db assets/contributors.db
           git add assets/contributors.db
           scp -p -P 29418 harryyoud@review.lineageos.org:hooks/commit-msg .git/hooks/
