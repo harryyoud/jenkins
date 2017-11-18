@@ -9,7 +9,7 @@ node("master"){
         rm -rf jenkins hudson hudson2 hudson-rebalance.py
         git clone https://github.com/LineageOS/hudson jenkins
         cp jenkins/lineage-build-targets hudson
-        wget https://gist.githubusercontent.com/harryyoud/b7071f5ed4592a0a00f4af0c75db2ff6/raw/91807e1855e364cef6a16d8e6f51e1fe7fdb6aec/hudson-rebalance.py
+        curl https://gist.githubusercontent.com/harryyoud/b7071f5ed4592a0a00f4af0c75db2ff6/raw > hudson-rebalance.py
       '''
     }
     stage('Rebalance'){
