@@ -26,7 +26,7 @@ node("master"){
           git -C jenkins add lineage-build-targets
           scp -p -P 29418 harryyoud@review.lineageos.org:hooks/commit-msg jenkins/.git/hooks/
           git -C jenkins commit -m "Rebalance hudson targets $(cat out)" --author "Harry's Buildbot <buildbot@harryyoud.co.uk>"
-          git -C jenkins push ssh://harryyoud@review.lineageos.org:29418/LineageOS/hudson HEAD:refs/for/master
+          git -C jenkins push ssh://harryyoud@review.lineageos.org:29418/LineageOS/hudson HEAD:refs/drafts/master
         else
           echo "No changes in hudson, skipping"
         fi
