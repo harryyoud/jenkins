@@ -16,7 +16,7 @@ node("master"){
           cd contributors-cloud-generator
           git fetch origin
           git reset --hard origin/master
-          git fetch https://review.lineageos.org/LineageOS/contributors-cloud-generator refs/changes/26/191926/1 && git cherry-pick FETCH_HEAD
+          curl https://github.com/LineageOS/contributors-cloud-generator/commit/ee990efef92043dd7cfc26037ccc9bc1ffe82dfa.patch | git am
           rm -rf ../android_packages_apps_LineageParts
           rm -rf ../android_packages_apps_CMParts
           rm -rf ../android_packages_apps_Settings
