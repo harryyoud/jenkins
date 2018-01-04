@@ -8,6 +8,8 @@
 
   <project name="TheMuppets/proprietary_vendor_huawei" path="vendor/huawei" revision="lineage-15.0" />
 
+  <project name="LineageOS/android_kernel_huawei_angler" path="kernel/huawei/angler" revision="staging/lineage-15.1" />
+
   <project name="harryyoud/android_vendor_extra" path="vendor/extra" remote="gitlab" revision="lineage-15.1" />
   <project name="harryyoud/android_vendor_certs" path="vendor/certs" remote="gitlab" revision="master" />
 
