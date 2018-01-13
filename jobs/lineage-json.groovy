@@ -40,7 +40,7 @@ node("master"){
         diff scripts/device-deps-regenerator/devices.json hudson/updater/device_deps.json > /dev/null
         if [ $? = 1 ]; then
           cp scripts/device-deps-regenerator/devices.json hudson/updater/device_deps.json
-          git -C hudson add device_deps.json
+          git -C hudson add updater/device_deps.json
           git -C hudson commit -m "Regenerate device dependency mappings" --author "Harry's Buildbot <buildbot@harryyoud.co.uk>"
           git -C hudson push ssh://harryyoud@review.lineageos.org:29418/LineageOS/hudson HEAD:refs/drafts/master
         else
