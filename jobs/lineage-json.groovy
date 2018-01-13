@@ -7,13 +7,13 @@ node("master"){
       withCredentials([string(credentialsId: '6011576d-29fd-4457-9b00-5c4b153822ef', variable: 'GH_API_KEY')]) {
         sh '''#!/bin/bash +x
           set -e
-          rm -rf cve_tracker lineageos_updater scripts
-          git clone git@github.com:LineageOS/cve_tracker
-          git clone git@github.com:lineageos/lineageos_updater
+          rm -rf cve_tracker hudson scripts
+          git clone git@github.com:lineageos/cve_tracker
+          git clone git@github.com:lineageos/hudson
           git clone git@github.com:lineageos/scripts
           echo "$GH_API_KEY" > scripts/device-deps-regenerator/token
           scp -p -P 29418 harryyoud@review.lineageos.org:hooks/commit-msg cve_tracker/.git/hooks/
-          scp -p -P 29418 harryyoud@review.lineageos.org:hooks/commit-msg lineageos_updater/.git/hooks/
+          scp -p -P 29418 harryyoud@review.lineageos.org:hooks/commit-msg hudson/.git/hooks/
         '''
       }
     }
@@ -37,14 +37,14 @@ node("master"){
         else
           echo "No changes in cve_tracker, skipping"
         fi
-        diff scripts/device-deps-regenerator/devices.json lineageos_updater/device_deps.json > /dev/null
+        diff scripts/device-deps-regenerator/devices.json hudson/updater/device_deps.json > /dev/null
         if [ $? = 1 ]; then
-          cp scripts/device-deps-regenerator/devices.json lineageos_updater/device_deps.json
-          git -C lineageos_updater add device_deps.json
-          git -C lineageos_updater commit -m "Regenerate device dependency mappings" --author "Harry's Buildbot <buildbot@harryyoud.co.uk>"
-          git -C lineageos_updater push ssh://harryyoud@review.lineageos.org:29418/LineageOS/lineageos_updater HEAD:refs/drafts/master
+          cp scripts/device-deps-regenerator/devices.json hudson/updater/device_deps.json
+          git -C hudson add device_deps.json
+          git -C hudson commit -m "Regenerate device dependency mappings" --author "Harry's Buildbot <buildbot@harryyoud.co.uk>"
+          git -C hudson push ssh://harryyoud@review.lineageos.org:29418/LineageOS/hudson HEAD:refs/drafts/master
         else
-          echo "No changes in lineageos_updater, skipping"
+          echo "No changes in hudson, skipping"
         fi
       '''
     }
