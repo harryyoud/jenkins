@@ -30,7 +30,7 @@ node("master"){
 			if [ $? == 0 ]; then
 				ssh -p 29418 harry-jenkins@review.lineageos.org gerrit review -n OWNER --label Verified=+1 -m \\'"Build successful for change $CHANGE, patchset $PATCHSET. Preview available at https://harryyoud.co.uk/lineage-previews/$CHANGE/$PATCHSET"\\' $CHANGE,$PATCHSET
 			else
-				ssh -p 29418 harry-jenkins@review.lineageos.org gerrit review -n OWNER--label Verified=-1 -m \\'"Build failed for change $CHANGE, patchset $PATCHSET. View the log at $BUILD_URL/console"\\' $CHANGE,$PATCHSET
+				ssh -p 29418 harry-jenkins@review.lineageos.org gerrit review -n OWNER--label Verified=-1 -m \\'"Build failed for change $CHANGE, patchset $PATCHSET. View the log at ${BUILD_URL}console"\\' $CHANGE,$PATCHSET
 			fi
 			mkdir -p /home/harry/public_html/lin-www/$CHANGE/$PATCHSET
 			rsync -vr _site/ /home/harry/public_html/lineage-previews/$CHANGE/$PATCHSET --delete --exclude .well-known
