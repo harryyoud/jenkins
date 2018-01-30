@@ -209,7 +209,7 @@ node("the-revenge"){
             if [ $OTA = 'true' ]; then
               zipname=$(find -name "lineage-$VERSION-*.zip" -type f -printf '%f\n')
               md5sum=$(md5sum $zipname)
-              curl -H "Apikey: $UPDATER_API_KEY" -H "Content-Type: application/json" -X POST -d '{ "device": "'"$DEVICE"'", "filename": "'"$zipname"'", "md5sum": "'"${md5sum:0:32}"'", "romtype": "unofficial", "url": "'"http://builder.harryyoud.co.uk/lineage/$DEVICE/'''+timestamp+'''/$zipname"'", "version": "'"14.1"'" }' "https://lineage.harryyoud.co.uk/api/v1/add_build"
+              curl -H "Apikey: $UPDATER_API_KEY" -H "Content-Type: application/json" -X POST -d '{ "device": "'"$DEVICE"'", "filename": "'"$zipname"'", "md5sum": "'"${md5sum:0:32}"'", "romtype": "unofficial", "url": "'"http://builder.harryyoud.co.uk/lineage/$DEVICE/'''+timestamp+'''/$zipname"'", "version": "'"$VERSION"'" }' "https://lineage.harryyoud.co.uk/api/v1/add_build"
             fi
           '''
         }
