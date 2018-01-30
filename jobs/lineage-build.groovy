@@ -135,8 +135,10 @@ node("the-revenge"){
             export PATH=$JDK_HOME/bin:$JAVA_HOME:$PATH
           fi
           lunch lineage_$DEVICE-$BUILD_TYPE || lunch cm_$DEVICE-$BUILD_TYPE
-          if [[ $VERSION = '14.1' ]]; then
+          if [[ $VERSION = '14.1' ]] || [[ $VERSION = '15.1' ]]; then
             ./prebuilts/sdk/tools/jack-admin list-server && ./prebuilts/sdk/tools/jack-admin kill-server
+            rm -rf ~/.jack*
+            ./prebuilts/sdk/tools/jack-admin install-server ./prebuilts/sdk/tools/jack-launcher.jar ./prebuilts/sdk/tools/jack-server-*.jar
             export JACK_SERVER_VM_ARGUMENTS="-Dfile.encoding=UTF-8 -XX:+TieredCompilation -Xmx6g"
             ./prebuilts/sdk/tools/jack-admin start-server
           fi
@@ -145,7 +147,7 @@ node("the-revenge"){
           else
             mka bacon
           fi
-          if [[ $VERSION = '14.1' ]]; then
+          if [[ $VERSION = '14.1' ]] || [[ $VERSION = '15.1' ]]; then
             ./prebuilts/sdk/tools/jack-admin list-server && ./prebuilts/sdk/tools/jack-admin kill-server
           fi
         '''
