@@ -1,4 +1,4 @@
-node("master"){
+node("build"){
 	stage('Clone'){
 			git url:'https://github.com/LineageOS/lineage_wiki'
 	}
@@ -38,8 +38,8 @@ node("master"){
 			else
 				ssh -p 29418 harry-jenkins@review.lineageos.org gerrit review -n OWNER--label Verified=-1 -m \\'"Build failed for change $CHANGE, patchset $PATCHSET. View the log at ${BUILD_URL}console"\\' $CHANGE,$PATCHSET
 			fi
-			mkdir -p /home/harry/public_html/lineage-previews/$CHANGE/$PATCHSET
-			rsync -vr _site/ /home/harry/public_html/lineage-previews/$CHANGE/$PATCHSET --delete --exclude .well-known --exclude images/devices
+			mkdir -p /home/www/nginx/sites/harryyoud.co.uk/public_html/lineage-previews/$CHANGE/$PATCHSET
+			rsync -vr _site/ /home/www/nginx/sites/harryyoud.co.uk/public_html/lineage-previews/$CHANGE/$PATCHSET --delete --exclude .well-known --exclude images/devices
 		'''
 	}
 	stage('Reset'){

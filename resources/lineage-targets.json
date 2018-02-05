@@ -1,62 +1,9 @@
 [
 	{
 			"device": "GLOBAL",
-			"repopick_tops": ""
 	},
 	{
 			"device": "angler",
 			"build_type": "user",
-			"repopick_nums": "174204",
-			"repopick_tops": "angler-gapps,angler-hbm,angler_core_ctl,oms-for-pa-color-engine,pa-color-engine",
-			"with_gapps": "true",
-			"signed": "true",
-			"signed_backuptool": "false"
 	},
-	{
-			"device": "d2att",
-			"build_type": "userdebug",
-			"with_su": "true",
-			"repopick_nums": "171142,169431,164202,157956,172006"
-	},
-	{
-			"device": "ether",
-			"build_type": "userdebug",
-			"repopick_nums": "175961,175968,177847,178805,157956",
-			"repopick_tops": "ether-hacks"
-	},
-	{
-			"device": "falcon",
-			"build_type": "userdebug",
-			"version": "14.1"
-	},
-	{
-			"device": "flounder",
-			"build_type": "userdebug"
-	},
-	{
-			"device": "flounder_lte",
-			"build_type": "userdebug"
-	},
-	{
-			"device": "grouper",
-			"build_type": "userdebug"
-	},
-	{
-			"device": "tilapia",
-			"build_type": "userdebug"
-	},
-	{
-			"device": "GLOBAL",
-			"repopick_tops": ""
-	},
-	{
-			"device": "falcon",
-			"build_type": "userdebug",
-			"version": "13.0"
-	},
-	{
-			"device": "falcon",
-			"build_type": "userdebug",
-			"version": "11"
-	}
 ]
