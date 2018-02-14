@@ -3,20 +3,24 @@ node("build"){
 		git url:'https://github.com/LineageOS/www'
 	}
 	stage('Pick commit'){
-		sh '''
-			python - $CHANGE <<-END
-			from pygerrit2.rest import GerritRestAPI
-			from sys import argv
-			from os import system
-			gerrit_url = "https://review.lineageos.org/"
-			rest = GerritRestAPI(url=gerrit_url)
-			change = rest.get("/changes/{}?o=DOWNLOAD_COMMANDS&o=CURRENT_REVISION".format(argv[1]))
-			commands = change['revisions'].items()[0][1]['fetch']['anonymous http']
-			url = commands['url']
-			ref = commands['ref']
-			system('git fetch {} {} && git checkout FETCH_HEAD'.format(url, ref))
-			END
-		'''
+		withCredentials([string(credentialsId: 'LineageGerritHTTPPass', variable: 'GERRITHTTPPASS')]) {
+			sh '''
+				python - $CHANGE $GERRITHTTPPASS<<-END
+				from pygerrit2.rest import GerritRestAPI
+				from sys import argv
+				from os import system
+				from requests.auth import HTTPBasicAuth
+				gerrit_url = "https://review.lineageos.org/"
+				auth = HTTPBasicAuth('harryyoud', argv[2])
+				rest = GerritRestAPI(url=gerrit_url, auth=auth)
+				change = rest.get("/changes/{}?o=DOWNLOAD_COMMANDS&o=CURRENT_REVISION".format(argv[1]))
+				commands = change['revisions'].items()[0][1]['fetch'].itervalues().next()
+				ref = commands['ref']
+				rest.post("/changes/{}/reviewers".format(argv[1]), json={"reviewer": "harry-jenkins"})
+				system('git fetch https://github.com/LineageOS/www {} && git checkout FETCH_HEAD'.format(ref))
+				END
+			'''
+		}
 	}
 	stage('Go'){
 		sh '''#!/bin/bash
