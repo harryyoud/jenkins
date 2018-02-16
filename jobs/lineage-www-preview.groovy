@@ -16,7 +16,7 @@ node("build"){
 				change = rest.get("/changes/{}?o=DOWNLOAD_COMMANDS&o=CURRENT_REVISION".format(argv[1]))
 				commands = change['revisions'].items()[0][1]['fetch'].itervalues().next()
 				ref = commands['ref']
-				rest.post("/changes/{}/reviewers".format(argv[1]), json={"reviewer": "harry-jenkins"})
+				rest.post("/changes/{}/reviewers".format(argv[1]), json={"reviewer": "harry-jenkins", "notify": "NONE"})
 				system('git fetch https://github.com/LineageOS/www {} && git checkout FETCH_HEAD'.format(ref))
 				END
 			'''
