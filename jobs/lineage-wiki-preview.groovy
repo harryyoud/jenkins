@@ -5,6 +5,7 @@ node("build"){
 	stage('Pick commit'){
 		withCredentials([string(credentialsId: 'LineageGerritHTTPPass', variable: 'GERRITHTTPPASS')]) {
 			sh '''
+				sleep 60
 				python - $CHANGE $GERRITHTTPPASS<<-END
 				from pygerrit2.rest import GerritRestAPI
 				from sys import argv
