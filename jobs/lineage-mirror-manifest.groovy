@@ -1,12 +1,12 @@
 def slack
 node("master"){ slack = load "${workspace}@script/includes/slack-send.groovy" }
 
-node("master"){
+node("build"){
   stage('Clone'){
     git url:'https://github.com/LineageOS/mirror'
   }
   stage('Generate mirror'){
-    withCredentials([string(credentialsId: '6011576d-29fd-4457-9b00-5c4b153822ef', variable: 'GHTOKEN')]) {
+    withCredentials([string(credentialsId: 'GitHubAPIKey', variable: 'GHTOKEN')]) {
       sh '''#!/bin/bash +x
         mv default.xml old-default.xml
         export GHUSER="harryyoud"
