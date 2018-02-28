@@ -14,7 +14,7 @@ pipeline {
           cd contributors-cloud-generator
           git fetch origin
           git reset --hard origin/master
-          curl https://github.com/LineageOS/contributors-cloud-generator/commit/ee990efef92043dd7cfc26037ccc9bc1ffe82dfa.patch | git am
+          curl https://github.com/LineageOS/contributors-cloud-generator/commit/6f3cea78f9f516ee9e654a6f166bd8e28f3de1b2.patch | git am
           rm -rf ../android_packages_apps_LineageParts
           rm -rf ../android_packages_apps_CMParts
           rm -rf ../android_packages_apps_Settings
@@ -30,7 +30,7 @@ pipeline {
         sh '''#!/bin/bash +x
           set -e
           cd contributors-cloud-generator/source
-          mvn package
+          JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 mvn package
           cp target/contributors-cloud-generator-1.0.jar ../lib
         '''
       }
@@ -47,7 +47,7 @@ pipeline {
         sh '''#!/bin/bash +x
           set -e
           cd contributors-cloud-generator
-          ./generate_wordcloud.sh
+          JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64 python3 generate_wordcloud.py --mirror=/mirror
         '''
       }
     }
