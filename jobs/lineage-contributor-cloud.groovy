@@ -17,10 +17,8 @@ pipeline {
           curl https://github.com/LineageOS/contributors-cloud-generator/commit/6f3cea78f9f516ee9e654a6f166bd8e28f3de1b2.patch | git am
           rm -rf ../android_packages_apps_LineageParts
           rm -rf ../android_packages_apps_CMParts
-          rm -rf ../android_packages_apps_Settings
           git clone -b lineage-15.0 https://github.com/LineageOS/android_packages_apps_LineageParts ../android_packages_apps_LineageParts
           git clone -b cm-14.1 https://github.com/LineageOS/android_packages_apps_CMParts ../android_packages_apps_CMParts
-          git clone --reference /mirror/LineageOS/android_packages_apps_Settings.git -b cm-13.0 https://github.com/LineageOS/android_packages_apps_Settings ../android_packages_apps_Settings
           cd ..
         '''
       }
@@ -69,13 +67,6 @@ pipeline {
           git commit -m "Regenerate contributors cloud" --author "Harry Youd <harry@harryyoud.co.uk>"
           git commit --amend --no-edit
           git push ssh://harryyoud@review.lineageos.org:29418/LineageOS/android_packages_apps_CMParts HEAD:refs/drafts/cm-14.1
-          cd ../android_packages_apps_Settings
-          cp ../contributors-cloud-generator/out/cloud.db assets/contributors.db
-          git add assets/contributors.db
-          scp -p -P 29418 harryyoud@review.lineageos.org:hooks/commit-msg .git/hooks/
-          git commit -m "Regenerate contributors cloud" --author "Harry Youd <harry@harryyoud.co.uk>"
-          git commit --amend --no-edit
-          git push ssh://harryyoud@review.lineageos.org:29418/LineageOS/android_packages_apps_Settings HEAD:refs/drafts/cm-13.0
         '''
       }
     }
