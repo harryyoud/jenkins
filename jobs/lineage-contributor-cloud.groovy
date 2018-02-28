@@ -61,7 +61,7 @@ pipeline {
           scp -p -P 29418 harryyoud@review.lineageos.org:hooks/commit-msg .git/hooks/
           git commit -m "Regenerate contributors cloud" --author "Harry Youd <harry@harryyoud.co.uk>"
           git commit --amend --no-edit
-          git push ssh://harryyoud@review.lineageos.org:29418/LineageOS/android_packages_apps_LineageParts HEAD:refs/drafts/lineage-15.0
+          git push ssh://harryyoud@review.lineageos.org:29418/LineageOS/android_packages_apps_LineageParts HEAD:refs/drafts/lineage-15.1
           cd ../android_packages_apps_CMParts
           cp ../contributors-cloud-generator/out/cloud.db assets/contributors.db
           git add assets/contributors.db
