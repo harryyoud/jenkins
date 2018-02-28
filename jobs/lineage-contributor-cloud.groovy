@@ -20,7 +20,7 @@ pipeline {
           rm -rf ../android_packages_apps_Settings
           git clone -b lineage-15.0 https://github.com/LineageOS/android_packages_apps_LineageParts ../android_packages_apps_LineageParts
           git clone -b cm-14.1 https://github.com/LineageOS/android_packages_apps_CMParts ../android_packages_apps_CMParts
-          git clone -b cm-13.0 https://github.com/LineageOS/android_packages_apps_Settings ../android_packages_apps_Settings
+          git clone --reference /mirror/LineageOS/android_packages_apps_Settings.git -b cm-13.0 https://github.com/LineageOS/android_packages_apps_Settings ../android_packages_apps_Settings
           cd ..
         '''
       }
