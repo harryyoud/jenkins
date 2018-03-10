@@ -20,6 +20,7 @@ node("build"){
 				rest.post("/changes/{}/reviewers".format(argv[1]), json={"reviewer": "harry-jenkins", "notify": "NONE"})
 				system('git fetch https://github.com/LineageOS/lineage_wiki {} && git checkout FETCH_HEAD'.format(ref))
 				END
+				gpick 203329
 			'''
 		}
 	}
