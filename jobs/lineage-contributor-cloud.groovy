@@ -17,7 +17,7 @@ pipeline {
           curl https://github.com/LineageOS/contributors-cloud-generator/commit/6f3cea78f9f516ee9e654a6f166bd8e28f3de1b2.patch | git am
           rm -rf ../android_packages_apps_LineageParts
           rm -rf ../android_packages_apps_CMParts
-          git clone -b lineage-15.0 https://github.com/LineageOS/android_packages_apps_LineageParts ../android_packages_apps_LineageParts
+          git clone -b lineage-15.1 https://github.com/LineageOS/android_packages_apps_LineageParts ../android_packages_apps_LineageParts
           git clone -b cm-14.1 https://github.com/LineageOS/android_packages_apps_CMParts ../android_packages_apps_CMParts
           cd ..
         '''
