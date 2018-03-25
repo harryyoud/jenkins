@@ -14,7 +14,7 @@ pipeline {
           cd contributors-cloud-generator
           git fetch origin
           git reset --hard origin/master
-          curl https://github.com/LineageOS/contributors-cloud-generator/commit/6f3cea78f9f516ee9e654a6f166bd8e28f3de1b2.patch | git am
+          curl https://github.com/LineageOS/contributors-cloud-generator/commit/e7cef6c48e34393f6744b7abcb8c5fc0185d6b7c.patch | git am
           rm -rf ../android_packages_apps_LineageParts
           rm -rf ../android_packages_apps_CMParts
           git clone -b lineage-15.1 https://github.com/LineageOS/android_packages_apps_LineageParts ../android_packages_apps_LineageParts
