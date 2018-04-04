@@ -25,7 +25,10 @@ node("build"){
 	}
 	stage('Go'){
 		sh '''#!/bin/bash
-			sed -i s@baseurl:\\ \\"@baseurl:\\ \\"/lineage-previews/$CHANGE/$PATCHSET@g _config.yml
+			if [ $STATUS == DRAFT ]; then
+				PRIVATE=private/
+			fi
+			sed -i s@baseurl:\\ \\"@baseurl:\\ \\"/lineage-previews/${PRIVATE}${CHANGE}/${PATCHSET}@g _config.yml
 			curl https://gist.githubusercontent.com/harryyoud/0977f6064d9c98ecab572e2b3c195f79/raw/073be2a5785d422eb7ac4331de7cb28c54e1aaad/gistfile1.txt > Dockerfile
 			if ! docker image inspect lineageos/www > /dev/null; then
 				docker build -t lineageos/www .
@@ -33,12 +36,12 @@ node("build"){
 			echo >> _config.yml
 			docker run -e JEKYLL_ENV=$(git rev-parse --verify HEAD~1) -v $(pwd):/src lineageos/www
 			if [ $? == 0 ]; then
-				ssh -p 29418 harry-jenkins@review.lineageos.org gerrit review -n OWNER --label Verified=+1 -m \\'"Build successful for change $CHANGE, patchset $PATCHSET. Preview available at https://harryyoud.co.uk/lineage-previews/$CHANGE/$PATCHSET"\\' $CHANGE,$PATCHSET
+				ssh -p 29418 harry-jenkins@review.lineageos.org gerrit review -n OWNER --label Verified=+1 -m \\'"Build successful for change $CHANGE, patchset $PATCHSET. Preview available at https://harryyoud.co.uk/lineage-previews/${PRIVATE}${CHANGE}/${PATCHSET}"\\' $CHANGE,$PATCHSET
 			else
 				ssh -p 29418 harry-jenkins@review.lineageos.org gerrit review -n OWNER --label Verified=-1 -m \\'"Build failed for change $CHANGE, patchset $PATCHSET. View the log at ${BUILD_URL}console"\\' $CHANGE,$PATCHSET
 			fi
-			mkdir -p /home/www/nginx/sites/harryyoud.co.uk/public_html/lineage-previews/$CHANGE/$PATCHSET
-			rsync -vr _site/ /home/www/nginx/sites/harryyoud.co.uk/public_html/lineage-previews/$CHANGE/$PATCHSET --delete --exclude .well-known
+			mkdir -p /home/www/nginx/sites/harryyoud.co.uk/public_html/lineage-previews/${PRIVATE}${CHANGE}/${PATCHSET}
+			rsync -vr _site/ /home/www/nginx/sites/harryyoud.co.uk/public_html/lineage-previews/${PRIVATE}${CHANGE}/${PATCHSET} --delete --exclude .well-known
 		'''
 	}
 	stage('Reset'){
