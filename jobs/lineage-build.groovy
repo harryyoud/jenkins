@@ -106,7 +106,7 @@ node("build"){
       sh '''#!/bin/bash
         if [ $OTA = 'true' ]; then
           zipname=$(find '''+BUILD_TREE+'''/out/dist/ -name 'lineage-15.1-*.zip' -type f -printf "%f\\n")
-          rsync '''+BUILD_TREE+'''/out/dist/$zipname /home/www/nginx/sites/harryyoud.co.uk/ota/builds/
+          rsync '''+BUILD_TREE+'''/out/dist/$zipname /home/www/nginx/sites/harryyoud.co.uk/public_html/builds/
         else
           echo "Skipping as this is not a production build. Artifacts will be available in Jenkins"
         fi
