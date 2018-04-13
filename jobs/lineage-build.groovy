@@ -78,7 +78,7 @@ node("build"){
         export CCACHE_DIR='''+CCACHE_DIR+'''
         export ANDROID_COMPILE_WITH_JACK=false
         lunch lineage_$DEVICE-$BUILD_TYPE
-        mka target-files-package dist
+        mka target-files-package otatools dist
         export DATE=$(date -u +%Y%m%d)
         if [ -f tfgp/$DEVICE.zip ]; then
           ./build/tools/releasetools/ota_from_target_files -i tfgp/$DEVICE.zip out/dist/*-target_files-*.zip out/dist/lineage-$VERSION-$DATE-UNOFFICIAL-$DEVICE.zip
