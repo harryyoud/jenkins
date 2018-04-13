@@ -1,6 +1,3 @@
-def slack
-node("master"){ slack = load "${workspace}@script/includes/slack-send.groovy" }
-
 import groovy.json.JsonSlurper
 
 String getDevices() { new File("${workspace}@script/resources/lineage-targets.json").text }
@@ -44,7 +41,5 @@ node("master"){
   } catch (e) {
     currentBuild.result = "FAILED"
     throw e
-  } finally {
-    slack.notifySlack(currentBuild.result)
   }
 }

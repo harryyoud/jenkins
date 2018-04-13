@@ -7,16 +7,12 @@ def CCACHE_DIR  = "/home/harry/.ccache"
 def basejobname = DEVICE + '-' + VERSION + '-' + calcDate() + '-' + BUILD_TYPE
 def timestamp = calcTimestamp()
 
-def slack
-node("master"){ slack = load "${workspace}@script/includes/slack-send.groovy" }
-
 node("build"){
   timestamps {
     currentBuild.displayName = basejobname
     if(OTA != 'true') {
       currentBuild.displayName = basejobname + '-priv'
     }
-    slack.notifySlack('STARTED')
     stage('Sync'){
       sh '''#!/bin/bash
         cd '''+BUILD_TREE+'''
@@ -115,12 +111,6 @@ node("build"){
           echo "Skipping as this is not a production build. Artifacts will be available in Jenkins"
         fi
       '''
-    }
-    post {
-      always {
-        slack.notifySlack(currentBuild.result)
-        cleanWs()
-      }
     }
   }
 }
