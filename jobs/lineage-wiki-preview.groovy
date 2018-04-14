@@ -35,16 +35,16 @@ node("build"){
 			fi
 			docker run --entrypoint test/validate.rb -tv $(pwd):/src -w /src lineageos/lineage_wiki
 			if [ $? != 0 ]; then
-				ssh -p 29418 harry-jenkins@review.lineageos.org gerrit review -n OWNER --label Verified=-1 -m \\'"Validation failed for change $CHANGE, patchset $PATCHSET. View the log at ${BUILD_URL}console"\\' $CHANGE,$PATCHSET
+				ssh -p 29418 harry-jenkins@review.lineageos.org gerrit review -n OWNER --label Code-Review=+1 -m \\'"Validation failed for change $CHANGE, patchset $PATCHSET. View the log at ${BUILD_URL}console"\\' $CHANGE,$PATCHSET
 				exit 1
 			fi
 			echo >> _config.yml
 			echo "baseurl: /lineage-previews/${PRIVATE}${CHANGE}/${PATCHSET}" >> _config.yml
 			docker run -e JEKYLL_ENV=$(git rev-parse --verify HEAD~2) -v $(pwd):/src lineageos/lineage_wiki
 			if [ $? == 0 ]; then
-				ssh -p 29418 harry-jenkins@review.lineageos.org gerrit review -n OWNER --label Verified=+1 -m \\'"Build successful for change $CHANGE, patchset $PATCHSET; validation passed. Preview available at https://harryyoud.co.uk/lineage-previews/${PRIVATE}${CHANGE}/${PATCHSET}"\\' $CHANGE,$PATCHSET
+				ssh -p 29418 harry-jenkins@review.lineageos.org gerrit review -n OWNER --label Code-Review=+1 -m \\'"Build successful for change $CHANGE, patchset $PATCHSET; validation passed. Preview available at https://harryyoud.co.uk/lineage-previews/${PRIVATE}${CHANGE}/${PATCHSET}"\\' $CHANGE,$PATCHSET
 			else
-				ssh -p 29418 harry-jenkins@review.lineageos.org gerrit review -n OWNER --label Verified=-1 -m \\'"Build failed for change $CHANGE, patchset $PATCHSET. View the log at ${BUILD_URL}console"\\' $CHANGE,$PATCHSET
+				ssh -p 29418 harry-jenkins@review.lineageos.org gerrit review -n OWNER --label Code-Review=-1 -m \\'"Build failed for change $CHANGE, patchset $PATCHSET. View the log at ${BUILD_URL}console"\\' $CHANGE,$PATCHSET
 			fi
 			mkdir -p /home/www/nginx/sites/harryyoud.co.uk/public_html/lineage-previews/${PRIVATE}${CHANGE}/${PATCHSET}
 			rsync -vr _site/ /home/www/nginx/sites/harryyoud.co.uk/public_html/lineage-previews/${PRIVATE}${CHANGE}/${PATCHSET} --delete --exclude .well-known
