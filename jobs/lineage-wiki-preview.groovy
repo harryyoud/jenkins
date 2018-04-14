@@ -35,7 +35,7 @@ node("build"){
 			fi
 			docker run --entrypoint test/validate.rb -tv $(pwd):/src -w /src lineageos/lineage_wiki
 			if [ $? != 0 ]; then
-				ssh -p 29418 harry-jenkins@review.lineageos.org gerrit review -n OWNER --label Code-Review=+1 -m \\'"Validation failed for change $CHANGE, patchset $PATCHSET. View the log at ${BUILD_URL}console"\\' $CHANGE,$PATCHSET
+				ssh -p 29418 harry-jenkins@review.lineageos.org gerrit review -n OWNER --label Code-Review=-1 -m \\'"Validation failed for change $CHANGE, patchset $PATCHSET. View the log at ${BUILD_URL}console"\\' $CHANGE,$PATCHSET
 				exit 1
 			fi
 			echo >> _config.yml
