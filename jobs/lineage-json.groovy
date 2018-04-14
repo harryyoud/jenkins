@@ -36,7 +36,7 @@ pipeline {
             cp scripts/device-deps-regenerator/kernels.json cve_tracker/kernels.json
             git -C cve_tracker add kernels.json
             git -C cve_tracker commit -m "Regenerate kernel->device mappings" --author "Harry's Buildbot <buildbot@harryyoud.co.uk>"
-            git -C cve_tracker push ssh://harryyoud@review.lineageos.org:29418/LineageOS/cve_tracker HEAD:refs/drafts/master
+            git -C cve_tracker push ssh://harryyoud@review.lineageos.org:29418/LineageOS/cve_tracker HEAD:refs/for/master
           else
             echo "No changes in cve_tracker, skipping"
           fi
@@ -45,7 +45,7 @@ pipeline {
             cp scripts/device-deps-regenerator/devices.json hudson/updater/device_deps.json
             git -C hudson add updater/device_deps.json
             git -C hudson commit -m "Regenerate device dependency mappings" --author "Harry's Buildbot <buildbot@harryyoud.co.uk>"
-            git -C hudson push ssh://harryyoud@review.lineageos.org:29418/LineageOS/hudson HEAD:refs/drafts/master
+            git -C hudson push ssh://harryyoud@review.lineageos.org:29418/LineageOS/hudson HEAD:refs/for/master
           else
             echo "No changes in hudson, skipping"
           fi
