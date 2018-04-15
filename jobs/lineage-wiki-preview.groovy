@@ -40,7 +40,7 @@ node("build"){
 			fi
 			echo >> _config.yml
 			echo "baseurl: /lineage-previews/${PRIVATE}${CHANGE}/${PATCHSET}" >> _config.yml
-			docker run -e JEKYLL_ENV=$(git rev-parse --verify HEAD~2) -v $(pwd):/src lineageos/lineage_wiki
+			docker run -e JEKYLL_ENV=$(git rev-parse --verify HEAD~1) -v $(pwd):/src lineageos/lineage_wiki
 			if [ $? == 0 ]; then
 				ssh -p 29418 harry-jenkins@review.lineageos.org gerrit review -n OWNER --tag MrRobot --label Code-Review=+1 -m \\'"PASS: MrRobot : ${BUILD_URL}console\nBuild successful for change $CHANGE, patchset $PATCHSET; validation passed.\nPreview available at https://harryyoud.co.uk/lineage-previews/${PRIVATE}${CHANGE}/${PATCHSET}"\\' $CHANGE,$PATCHSET
 			else
