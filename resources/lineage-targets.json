@@ -1,12 +1,13 @@
 [
 	{
 			"device": "GLOBAL",
-			"repopick_nums": "206119,208567",
+			"repopick_nums": "206119,208567,210238,212953",
 			"repopick_tops": "opa-layout,nojack",
 	},
 	{
 			"device": "angler",
 			"build_type": "user",
 			"repopick_nums": "207576",
+			"repopick_tops": "oreo-angler-quota",
 	},
 ]
