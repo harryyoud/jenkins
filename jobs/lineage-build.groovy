@@ -8,7 +8,6 @@ def basejobname = DEVICE + '-' + VERSION + '-' + calcDate() + '-' + BUILD_TYPE
 def timestamp = calcTimestamp()
 
 node("build"){
-  timestamps {
     currentBuild.displayName = basejobname
     if(OTA != 'true') {
       currentBuild.displayName = basejobname + '-priv'
@@ -113,5 +112,4 @@ node("build"){
         fi
       '''
     }
-  }
 }
