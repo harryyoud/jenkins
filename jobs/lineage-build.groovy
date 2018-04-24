@@ -80,7 +80,7 @@ node("build"){
         lunch lineage_$DEVICE-$BUILD_TYPE
         mka target-files-package otatools installed-file-list dist
         if [ -f tfgp/$DEVICE.zip ]; then
-          ./build/tools/releasetools/ota_from_target_files -i tfgp/$DEVICE.zip out/dist/*-target_files-*.zip out/dist/lineage-$VERSION-$DATETIME-UNOFFICIAL-$DEVICE.zip
+          ./build/tools/releasetools/ota_from_target_files --backup=false -i tfgp/$DEVICE.zip out/dist/*-target_files-*.zip out/dist/lineage-$VERSION-$DATETIME-UNOFFICIAL-$DEVICE.zip
           cp out/dist/*-target_files-*.zip tfgp/$DEVICE.zip
         else
           ./build/tools/releasetools/ota_from_target_files out/dist/*-target_files-*.zip out/dist/lineage-$VERSION-$DATETIME-UNOFFICIAL-$DEVICE.zip
