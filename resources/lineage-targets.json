@@ -1,8 +1,8 @@
 [
 	{
 			"device": "GLOBAL",
-			"repopick_nums": "206119,208567,210238,212953",
-			"repopick_tops": "opa-layout,nojack",
+			"repopick_nums": "206119,208567,210238,206054-206059",
+			"repopick_tops": "",
 	},
 	{
 			"device": "angler",
