@@ -34,7 +34,7 @@ node("build"){
         . build/envsetup.sh
         if ! [ -z $GLOBAL_REPOPICK_NUMBERS ]; then
           for rpnum in ${GLOBAL_REPOPICK_NUMBERS//,/ }; do
-            repopick -r $rpnum
+            repopick -rf $rpnum
           done
         else
           echo "No global repopick numbers chosen"
@@ -48,7 +48,7 @@ node("build"){
         fi
         if ! [ -z $REPOPICK_NUMBERS ]; then
           for rpnum in ${REPOPICK_NUMBERS//,/ }; do
-            repopick -r $rpnum
+            repopick -rf $rpnum
           done
         else
           echo "No repopick numbers chosen"
