@@ -37,7 +37,6 @@ node("master"){
   post {
     always {
       slack.notifySlack(currentBuild.result)
-      cleanWs()
     }
   }
 }
