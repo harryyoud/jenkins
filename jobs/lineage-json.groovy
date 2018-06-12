@@ -31,7 +31,7 @@ pipeline {
     stage('Create draft change'){
       steps {
         sh '''#!/bin/bash +x
-          diff scripts/device-deps-regenerator/kernels.json cve_tracker/kernels.json
+          diff -u scripts/device-deps-regenerator/kernels.json cve_tracker/kernels.json
           if [ $? = 1 ]; then
             cp scripts/device-deps-regenerator/kernels.json cve_tracker/kernels.json
             git -C cve_tracker add kernels.json
@@ -40,7 +40,7 @@ pipeline {
           else
             echo "No changes in cve_tracker, skipping"
           fi
-          diff scripts/device-deps-regenerator/devices.json hudson/updater/device_deps.json > /dev/null
+          diff -u scripts/device-deps-regenerator/devices.json hudson/updater/device_deps.json > /dev/null
           if [ $? = 1 ]; then
             cp scripts/device-deps-regenerator/devices.json hudson/updater/device_deps.json
             git -C hudson add updater/device_deps.json
