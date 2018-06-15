@@ -3,29 +3,15 @@ node("build"){
 		git url:'https://github.com/LineageOS/www'
 	}
 	stage('Pick commit'){
-		withCredentials([string(credentialsId: 'LineageGerritHTTPPass', variable: 'GERRITHTTPPASS')]) {
-			sh '''
-				sleep 60
-				python - $CHANGE $GERRITHTTPPASS<<-END
-				from pygerrit2.rest import GerritRestAPI
-				from sys import argv
-				from os import system
-				from requests.auth import HTTPBasicAuth
-				gerrit_url = "https://review.lineageos.org/"
-				auth = HTTPBasicAuth('harryyoud', argv[2])
-				rest = GerritRestAPI(url=gerrit_url, auth=auth)
-				change = rest.get("/changes/{}?o=DOWNLOAD_COMMANDS&o=CURRENT_REVISION".format(argv[1]))
-				commands = change['revisions'].items()[0][1]['fetch'].itervalues().next()
-				ref = commands['ref']
-				rest.post("/changes/{}/reviewers".format(argv[1]), json={"reviewer": "harry-jenkins", "notify": "NONE"})
-				system('git fetch https://github.com/LineageOS/www {} && git checkout FETCH_HEAD'.format(ref))
-				END
-			'''
-		}
+		sh '''#!/bin/bash
+			sleep 60
+			git fetch origin refs/changes/${CHANGE: -2}/${CHANGE}/${PATCHSET}
+			git checkout FETCH_HEAD
+		'''
 	}
 	stage('Go'){
 		sh '''#!/bin/bash
-			if [ $STATUS == DRAFT ]; then
+			if [ $STATUS != OPEN ]; then
 				PRIVATE=private/
 			fi
 			sed -i s@baseurl:\\ \\"@baseurl:\\ \\"/lineage-previews/${PRIVATE}${CHANGE}/${PATCHSET}@g _config.yml
