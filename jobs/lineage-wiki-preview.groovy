@@ -3,30 +3,15 @@ node("build"){
 			git url:'https://github.com/LineageOS/lineage_wiki'
 	}
 	stage('Pick commit'){
-		withCredentials([string(credentialsId: 'LineageGerritHTTPPass', variable: 'GERRITHTTPPASS')]) {
-			sh '''
-				sleep 60
-				python - $CHANGE $GERRITHTTPPASS<<-END
-				from pygerrit2.rest import GerritRestAPI
-				from sys import argv
-				from os import system
-				from requests.auth import HTTPBasicAuth
-				gerrit_url = "https://review.lineageos.org/"
-				auth = HTTPBasicAuth('harryyoud', argv[2])
-				rest = GerritRestAPI(url=gerrit_url, auth=auth)
-				change = rest.get("/changes/{}?o=DOWNLOAD_COMMANDS&o=CURRENT_REVISION".format(argv[1]))
-				commands = change['revisions'].items()[0][1]['fetch'].itervalues().next()
-				ref = commands['ref']
-				rest.post("/changes/{}/reviewers".format(argv[1]), json={"reviewer": "harry-jenkins", "notify": "NONE"})
-				system('git fetch https://github.com/LineageOS/lineage_wiki {} && git checkout FETCH_HEAD'.format(ref))
-				END
-				gpick 203329
-			'''
-		}
+		sh '''#!/bin/bash
+			sleep 60
+			git fetch origin refs/changes/${CHANGE: -2}/${CHANGE}/${PATCHSET}
+			git checkout FETCH_HEAD
+                '''
 	}
 	stage('Go'){
 		sh '''#!/bin/bash
-			if [ $STATUS == DRAFT ]; then
+			if [ $STATUS != OPEN ]; then
 				PRIVATE=private/
 			fi
 			curl https://gist.githubusercontent.com/harryyoud/0977f6064d9c98ecab572e2b3c195f79/raw/073be2a5785d422eb7ac4331de7cb28c54e1aaad/gistfile1.txt > Dockerfile
