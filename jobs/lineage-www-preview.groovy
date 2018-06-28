@@ -11,7 +11,7 @@ node("build"){
 	}
 	stage('Go'){
 		sh '''#!/bin/bash
-			if [ $STATUS != OPEN ]; then
+			if [ $STATUS != NEW ]; then
 				PRIVATE=private/
 			fi
 			sed -i s@baseurl:\\ \\"@baseurl:\\ \\"/lineage-previews/${PRIVATE}${CHANGE}/${PATCHSET}@g _config.yml
