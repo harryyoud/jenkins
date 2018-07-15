@@ -4,7 +4,9 @@ node("build"){
 	}
 	stage('Pick commit'){
 		sh '''#!/bin/bash
-			sleep 60
+			until git ls-remote --exit-code origin refs/changes/${CHANGE: -2}/${CHANGE}/${PATCHSET} &>/dev/null ; do
+				sleep 5
+			done
 			git fetch origin refs/changes/${CHANGE: -2}/${CHANGE}/${PATCHSET}
 			git checkout FETCH_HEAD
                 '''
