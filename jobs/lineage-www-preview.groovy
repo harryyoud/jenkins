@@ -17,6 +17,7 @@ node("build"){
 				PRIVATE=private/
 			fi
 			sed -i s@baseurl:\\ \\"@baseurl:\\ \\"/lineage-previews/${PRIVATE}${CHANGE}/${PATCHSET}@g _config.yml
+			sed -i s@url:\\ \\"@url:\\ \\"https://harryyoud.co.uk@g _config.yml
 			curl https://gist.githubusercontent.com/harryyoud/0977f6064d9c98ecab572e2b3c195f79/raw/073be2a5785d422eb7ac4331de7cb28c54e1aaad/gistfile1.txt > Dockerfile
 			if ! docker image inspect lineageos/www > /dev/null; then
 				docker build -t lineageos/www .
