@@ -16,7 +16,7 @@ node("build"){
 			if [ "$STATUS" != NEW ]; then
 				PRIVATE=private/
 			fi
-			curl https://gist.githubusercontent.com/harryyoud/0977f6064d9c98ecab572e2b3c195f79/raw/073be2a5785d422eb7ac4331de7cb28c54e1aaad/gistfile1.txt > Dockerfile
+			curl https://gist.githubusercontent.com/harryyoud/0977f6064d9c98ecab572e2b3c195f79/raw/e979dc1f9c154bad61183708859740fb10c8070b/gistfile1.txt > Dockerfile
 			if ! docker image inspect lineageos/lineage_wiki > /dev/null; then
 				docker build -t lineageos/lineage_wiki .
 			fi
