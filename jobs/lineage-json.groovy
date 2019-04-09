@@ -22,7 +22,7 @@ pipeline {
         sh '''#!/bin/bash +x
           set -e
           cd scripts/device-deps-regenerator
-          python3 app.py
+          python3 app.py -j4
           python3 device2kernel.py
           python3 devices.py
         '''
