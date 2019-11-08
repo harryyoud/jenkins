@@ -16,18 +16,16 @@ node("build"){
 			if [ "$STATUS" != NEW ]; then
 				PRIVATE=private/
 			fi
-			curl https://gist.githubusercontent.com/harryyoud/0977f6064d9c98ecab572e2b3c195f79/raw/e979dc1f9c154bad61183708859740fb10c8070b/gistfile1.txt > Dockerfile
-			if ! docker image inspect lineageos/lineage_wiki > /dev/null; then
-				docker build -t lineageos/lineage_wiki .
-			fi
-			docker run --entrypoint test/validate.rb -tv $(pwd):/src -w /src lineageos/lineage_wiki
+			image_ver=$(git log -1 --pretty=%h -- Gemfile.lock)-$(git log -1 --pretty=%h -- Gemfile)
+			docker build -t lineageos/lineage_wiki:$image_ver .
+			docker run --entrypoint test/validate.rb -tv $(pwd):/src -w /src lineageos/lineage_wiki:$image_ver
 			if [ $? != 0 ]; then
 				ssh -p 29418 harry-jenkins@review.lineageos.org gerrit review -n OWNER --tag MrRobot --label Verified=-1 -m \\'"FAIL: MrRobot : ${BUILD_URL}console\nValidation failed for change $CHANGE, patchset $PATCHSET"\\' $CHANGE,$PATCHSET
 				exit 1
 			fi
 			echo >> _config.yml
 			echo "baseurl: /lineage-previews/${PRIVATE}${CHANGE}/${PATCHSET}" >> _config.yml
-			docker run --rm -e JEKYLL_ENV=$(git rev-parse --verify HEAD) -v $(pwd):/src lineageos/lineage_wiki
+			docker run --rm --entrypoint bundle -e JEKYLL_ENV=$(git rev-parse --verify HEAD) -v $(pwd):/src lineageos/lineage_wiki:$image_ver exec jekyll build --future
 			if [ $? == 0 ]; then
 				ssh -p 29418 harry-jenkins@review.lineageos.org gerrit review -n OWNER --tag MrRobot --label Verified=+1 -m \\'"PASS: MrRobot : ${BUILD_URL}console\nBuild successful for change $CHANGE, patchset $PATCHSET; validation passed.\nPreview available at https://harryyoud.co.uk/lineage-previews/${PRIVATE}${CHANGE}/${PATCHSET}"\\' $CHANGE,$PATCHSET
 			else
