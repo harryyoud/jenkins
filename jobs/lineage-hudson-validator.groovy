@@ -1,4 +1,4 @@
-node("build"){
+node("master"){
 	stage('Clone'){
 			git url:'https://github.com/LineageOS/hudson'
 	}
