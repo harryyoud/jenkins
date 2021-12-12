@@ -30,7 +30,7 @@ node("built-in"){
 				ssh -p 29418 harry-jenkins@review.lineageos.org gerrit review -n OWNER --tag MrRobot --label Verified=-1 -m \\'"FAIL: MrRobot : ${BUILD_URL}console\nBuild failed for change $CHANGE, patchset $PATCHSET"\\' $CHANGE,$PATCHSET
 			fi
 			mkdir -p /var/www/lineage.harryyoud.co.uk/public/${PRIVATE}${CHANGE}/${PATCHSET}
-			rsync -vr _site/ /var/www/lineage.harryyoud.co.uk/public/${PRIVATE}${CHANGE}/${PATCHSET} --delete --exclude .well-known
+			rsync -rh _site/ /var/www/lineage.harryyoud.co.uk/public/${PRIVATE}${CHANGE}/${PATCHSET} --delete --exclude .well-known
 		'''
 	}
 	stage('Reset'){
