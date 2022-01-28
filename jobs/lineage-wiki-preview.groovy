@@ -18,7 +18,7 @@ node("built-in"){
 			fi
 			image_ver=$(git log -1 --pretty=%h -- Gemfile.lock)-$(git log -1 --pretty=%h -- Gemfile)
 			docker build -t lineageos/lineage_wiki:$image_ver .
-			docker run --entrypoint test/validate.rb -tv $(pwd):/src -w /src lineageos/lineage_wiki:$image_ver
+			docker run --rm --entrypoint test/validate.rb -tv $(pwd):/src -w /src lineageos/lineage_wiki:$image_ver
 			if [ $? != 0 ]; then
 				ssh -p 29418 harry-jenkins@review.lineageos.org gerrit review -n OWNER --tag MrRobot --label Verified=-1 -m \\'"FAIL: MrRobot : ${BUILD_URL}console\nValidation failed for change $CHANGE, patchset $PATCHSET"\\' $CHANGE,$PATCHSET
 				exit 1

@@ -19,11 +19,12 @@ node("built-in"){
 			sed -i s@baseurl:\\ \\"@baseurl:\\ \\"/${PRIVATE}${CHANGE}/${PATCHSET}@g _config.yml
 			sed -i s@url:\\ \\"@url:\\ \\"https://lineage.harryyoud.co.uk@g _config.yml
 			curl https://gist.githubusercontent.com/harryyoud/0977f6064d9c98ecab572e2b3c195f79/raw/e979dc1f9c154bad61183708859740fb10c8070b/gistfile1.txt > Dockerfile
-			if ! docker image inspect lineageos/www > /dev/null; then
-				docker build -t lineageos/www .
-			fi
 			echo >> _config.yml
-			docker run --rm -e JEKYLL_ENV=$(git rev-parse --verify HEAD~1) -v $(pwd):/src lineageos/www
+
+			image_ver=$(git log -1 --pretty=%h -- Gemfile.lock)-$(git log -1 --pretty=%h -- Gemfile)
+			docker build -t lineageos/www:$image_ver .
+
+			docker run --rm -e JEKYLL_ENV=$(git rev-parse --verify HEAD~1) -v $(pwd):/src lineageos/www:$image_ver
 			if [ $? == 0 ]; then
 				ssh -p 29418 harry-jenkins@review.lineageos.org gerrit review -n OWNER --tag MrRobot --label Verified=+1 -m \\'"PASS: MrRobot : ${BUILD_URL}console\nBuild successful for change $CHANGE, patchset $PATCHSET.\nPreview available at https://lineage.harryyoud.co.uk/${PRIVATE}${CHANGE}/${PATCHSET}"\\' $CHANGE,$PATCHSET
 			else
