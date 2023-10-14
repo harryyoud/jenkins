@@ -18,7 +18,7 @@ node("built-in"){
 			fi
 			sed -i s@baseurl:\\ \\"@baseurl:\\ \\"/${PRIVATE}${CHANGE}/${PATCHSET}@g _config.yml
 			sed -i s@url:\\ \\"@url:\\ \\"https://lineage.youd.dev@g _config.yml
-			curl https://gist.githubusercontent.com/harryyoud/0977f6064d9c98ecab572e2b3c195f79/raw/d96085b6985c85ab83c9a48cfdea1c1df1d9bdc2/gistfile1.txt > Dockerfile
+			curl https://gist.githubusercontent.com/harryyoud/0977f6064d9c98ecab572e2b3c195f79/raw/ec9fa3290b3f7d1b1b55e366bc49b516341b5854/gistfile1.txt > Dockerfile
 			echo >> _config.yml
 
 			image_ver=$(git log -1 --pretty=%h -- Gemfile.lock)-$(git log -1 --pretty=%h -- Gemfile)
