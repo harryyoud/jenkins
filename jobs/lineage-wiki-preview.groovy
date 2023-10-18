@@ -37,7 +37,7 @@ node("built-in"){
 	}
 	stage('Reset'){
 		sh '''
-			git reset --hard origin/master
+			git reset --hard origin/main
 		'''
 	}
 }
